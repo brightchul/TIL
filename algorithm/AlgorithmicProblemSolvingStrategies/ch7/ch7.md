@@ -194,25 +194,176 @@ pow(A,31) -> pow(A,30) -> pow(A,15) -> pow(A,14) -> pow(A,7) -> pow(A,6) -> pow(
 
 ### 예제 : 카라츠바의 빠른 곱셈 알고리즘
 
-아래 코드에서는 곱하려는 
+```
+// 일반적인 정수 곱
+　　  1 2 3 4
+　　x 5 6 7 8
+ㅡㅡㅡㅡㅡㅡㅡㅡ
+　　　9 8 7 2
+　　8 6 3 8
+　7 4 0 4
+6 1 7 0
+ㅡㅡㅡㅡㅡㅡㅡㅡ
+7 0 0 6 6 5 2
+```
+
+
+
+이 과정을 코드로 옮겼을 때 정수형 배열들을 맨 아래 자리부터 저장한다. 이렇게 하면 순서가 역순이긴 하지만 A[i]에 주어진 자릿수의 크기를 10^i로 쉽게 구할 수 있다. 그래서 A[i]와 B[i]의 곱한 결과를 C[i+j]에 저장해서 좀더 직관적인 코드가 가능하다. [[전체코드](https://gist.github.com/brightchul/c61031cff9b975cd6935eb6a1838d1f4)]
 
 ```java
+public void normalize(final ArrayList<Integer> num) {
+    // 자릿수 올림을 처리한다.
+    num.add(0);
+    for(int i=0; i<num.size()-1; i++) {
+        int one = num.get(i);
+//      카라츠바 곱셈 음수 자릿수 연산할때 필요하다고 함
+//      if(one < 0) {
+//           int borrow = (Math.abs(one)+9)/10;
+//           num.set(i+1, num.get(i+1)-borrow);
+//           num.set(i, one+borrow*10);
+//      } else
+        {
+            // 이부분때문에 out of range가 발생한다.
+            // num.size()-1해줘야함
+            num.set(i+1, num.get(i+1) + one/10);
+            num.set(i, one % 10);
+        }
+    }
+    while(num.size() > 1 && num.get(num.size()-1) == 0) num.remove(num.size()-1);
+}
+public ArrayList<Integer> multiply(ArrayList<Integer>a, ArrayList<Integer> b) {
+    ArrayList<Integer> c = new ArrayList<>();
+    int alen = a.size(), blen = b.size(), clen = a.size() + b.size() + 1;
 
+    for(int i=0;i<clen; i++) c.add(0);
+
+    for(int i=0; i<alen; i++) {
+        for(int j=0; j<blen; j++)
+            c.set(i+j, c.get(i+j) + (a.get(i) * b.get(j)));
+    }
+    normalize(c);
+    return c;
+}
+```
+
+이 알고리즘의 시간 복잡도는 O(n^2) 이다. 
+
+카라츠바의 빠른 곱셈 알고리즘은 두 수를 각각 절반으로 쪼갠다. a와 b가 각각 256자리 수라면 a1과 b1은 첫 128자리, a0, b0은 그다음 128자리를 저장하는 것이다.
+
+![](./eq2.jpg)
+
+이렇게 한다음 a*b를 하게되면 4번의 곱셈이 발생한다. 이것을 분할 정복 알고리즘으로 재귀 호출해서 해결하면 결국 전체 수행시간은 O(n^2)이 된다.  하지만 카라츠바는 이것을 4번 대신 3번의 곱셈으로 계산할수 있다.
+
+![](./eq3.jpg)
+
+```
+// 위 식 결과로 z0과 z2를 빼서 z1를 구할수 있다.
+
+z2 = z1 * b1;
+z0 = a0 * b0;
+z1 = (a0 + a1) * (b0 + b1) - z0 - z2;
+```
+
+
+
+```java
+// a += b * (10^k) 구현
+public void addTo(ArrayList<Integer> aArr, ArrayList<Integer> bArr, int k) {
+    int aLen = aArr.size(), bLen = bArr.size();
+    int bIdx = 0;
+    int totalLength = bArr.size() + k;
+
+    for(int i = k; i < aLen; i++, bIdx++)
+        aArr.set(i, aArr.get(i) + bArr.get(bIdx));
+
+    if(totalLength > aLen)
+        while(bIdx < bLen) aArr.add(bArr.get(bIdx++));
+}
+// a -= b를 구현한다. a >= b를 가정한다.
+public void subFrom(ArrayList<Integer> aArr, ArrayList<Integer> bArr) {
+    int aLen = aArr.size(), bLen = bArr.size();
+    if(aLen < bLen) throw new RuntimeException("a길이가 b길이보다 더 작습니다.");
+
+    boolean flag = false;
+    for(int i=0; i<bLen; i++) {
+        int temp = aArr.get(i) - bArr.get(i);
+        if(flag) --temp;
+
+        if(temp < 0) {
+            temp = 10 + temp;
+            flag = true;
+        } else flag = false;
+
+        aArr.set(i, temp);
+    }
+}
+public String karatsuba(int a, int b) {
+    final ArrayList<Integer> al = makeIntToArr(a);
+    final ArrayList<Integer> bl = makeIntToArr(b);
+    final ArrayList<Integer> result = karatsuba(al, bl);
+    return makeArrToStr(result);
+}
+// 두 긴 정수의 곱을 반환한다.
+public ArrayList<Integer> karatsuba(ArrayList<Integer> aArr, ArrayList<Integer> bArr) {
+    int aLen = aArr.size(), bLen = bArr.size();
+    // aArr가 bArr보다 짧을 때 둘을 바꾼다.
+    if(aLen < bLen) return karatsuba(bArr, aArr);
+    // 기저 사례 : a나 b가 비어있는 경우
+    if(aLen == 0 || bLen == 0) return new ArrayList<Integer>();
+    // 기저 사례 : a가 비교적 짧은 경우 O(n^2) 곱셈으로 변경한다.
+    if(aLen <= 50) return multiply(aArr,bArr);
+    int half = aLen / 2;
+
+    //a와 b를 밑으로 half자리와 나머지로 분리한다.
+    ArrayList<Integer> a0 = new ArrayList<>(aArr.subList(0, half));
+    ArrayList<Integer> a1 = new ArrayList<>(aArr.subList(half, aLen));
+    ArrayList<Integer> b0 = new ArrayList<>(bArr.subList(0, Math.min(half, bLen)));
+    ArrayList<Integer> b1 = new ArrayList<>(bArr.subList(Math.min(half, bLen), bLen));
+
+    // z2 = a1 * b1;
+    ArrayList<Integer> z2 = karatsuba(a1, b1);
+    // z0 = a0*b0
+    ArrayList<Integer> z0 = karatsuba(a0, b0);
+    // a0+a1, b0+b1
+    addTo(a0, a1, 0);
+    addTo(b0, b1, 0);
+
+    // z1 = (z0*b0)-z0-z2;
+    ArrayList<Integer> z1 = karatsuba(a0, b0);
+    subFrom(z1, z0);
+    subFrom(z1, z2);
+
+    // ret = z0+z1*10^half+z2*10(half*2)
+    ArrayList<Integer> ret = new ArrayList<>();
+    addTo(ret, z0, 0);
+    addTo(ret, z1, half);
+    addTo(ret, z2, half+half);
+    return ret;
+}
 ```
 
 
 
 
 
+#### 시간 복잡도 분석
 
+카라츠바 알고리즘은 두 개의 입력을 절반씩으로 쪼갠 뒤, 세 번 재귀 호출을 한다. 분석을 위해서 수행 시간을 병합 단계와 기저 사례의 두 부분으로 나눈다. 병합 단계의 수행 시간은 `addTo()`와 `subFrom()`의 수행 시간에 지배되고, 기저 사례의 처리 시간은 `multiply()`의 수행시간에 지배된다.
 
+**기저사례 시간 계산**
 
+코드에서는 기존의 `multiply()`를 이용하지만 1자리일 때 사용한다는 경우를 가정하고 계산해보자. 자릿수 n이 2의 거듭제곱 2^k라고 했을 때, 재귀 호출의 깊이는 k가 된다.  한 번 쪼갤 때마다 해야 할 곱셈의 수가 세 배씩 늘어나기 때문에 마지막 단ㄱ에는 3^k개의 부분 문제가 있는데, 마지막 단계에서는 두 수 모두 한자리라서 곱셈 한번이면 충분하다. 따라서 곱셈의 수는 O(3^k)가 된다. n=2^k라고 가정했으니 k=lgn이고, 이때 곱셈의 수를 n에 대해 표현하면 다음과 같다.
+$$
+O(3^k)=(3^{lgn})=O(n^{lg3})
+$$
+**병합 단계 시간 계산**
 
-
-
-
-
-
+`addTo()` 와 `subFrom()`은 숫자의 길이에 비례하는 시간만이 걸리도록 구현할 수 있다. 따라서 각 단계에 해당하는 숫자의 길이를 모두 더하면 병합 단계에 드는 시간을 계산할 수 있다. 각 단계가 내려갈 때마다 숫자의 길이는 절반으로 줄고 부분 문제의 개수는 새 배 늘기 때문에 i번째 단계에 필요한 연산 수는 `(1.5^i) * n`이 된다. 따라서 전체 연산의 수는 다음에 비례한다.
+$$
+n*\sum_{i=0}^{lgn}(\frac{3}{2})^i
+$$
+이 함수는 n^lg3과 같은 속도로 증가하므로 카라츠바 알고리즘의 시간 복잡도는 곱셈이 지배하며, 최종 시간 복잡도는 O(n^lg3)이 된다. 카라츠바 알고리즘은 구현이 복잡하기 때문에 크기가 작을때는 O(n^2)보다 느린 경우가 많다.
 
 
 
