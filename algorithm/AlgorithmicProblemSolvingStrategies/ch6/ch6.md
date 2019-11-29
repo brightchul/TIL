@@ -230,7 +230,7 @@ bool hasWord(int y, int x, const string& word) {
 ```c++
 // 잘못된 재귀 코드
 int n;
-boo areFriends[10][10];
+bool areFriends[10][10];
 
 // taken[i] = i번째 학생이 짝을 이미 찾았으면 true 아니면 false
 int countPairings(bool taken[10]) {
