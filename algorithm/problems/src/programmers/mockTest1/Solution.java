@@ -23,34 +23,37 @@ public class Solution {
         sol.showArr(sol.solution(case1));
         sol.showArr(sol.solution(case2));
     }
+
+    public int[] solution(int[] answer) {
+        int[] ret = new int[]{0,0,0};
+        int len1 = man1.length, len2 = man2.length, len3 = man3.length, aLen = answer.length;
+        for(int i=0; i<aLen; i++) {
+            if(answer[i] == man1[i%len1]) ret[0]++;
+            if(answer[i] == man2[i%len2]) ret[1]++;
+            if(answer[i] == man3[i%len3]) ret[2]++;
+        }
+        return getMaxMan(ret);
+    }
+
     public int[] getMaxMan(int[] scores) {
         int max = 0;
         int maxCount = 0;
+
         for(int i=0; i<scores.length; i++) {
-            if(max == scores[i]) {
-                maxCount++;
-            }
-            else if(max < scores[i]) {
+            if(max == scores[i]) maxCount++;
+            else if(max < scores[i]){
                 maxCount = 1;
                 max = scores[i];
             }
         }
+
         int[] ret = new int[maxCount];
-        for(int i=0, j=0; i<scores.length; i++) {
+        for(int i=0, j=0; i<scores.length; i++)
             if(max == scores[i]) ret[j++] = i+1;
-        }
+
         return ret;
     }
-    public int[] solution(int[] answer) {
-        return getMaxMan(new int[]{check(man1, answer), check(man2, answer), check(man3, answer)});
-    }
-    public int check(int[] manArr, int[] answer) {
-        int ret = 0, manArrLen = manArr.length;
-        for(int i=0; i<answer.length; i++) {
-            if(answer[i] == manArr[i%manArrLen]) ret++;
-        }
-        return ret;
-    }
+
     public void showArr(int[] arr) {
         for(int i=0; i<arr.length; i++)
             System.out.print(arr[i] + " ");
