@@ -7,5 +7,5 @@
 - 모의고사  [[코드]](./src/programmers/mockTest1/Solution.java)
 - 가장 긴 펠린드롬  [[코드]](./src/programmers/longestPalindrome/Solution.java)
 - 숫자 야구  [[코드]](./src/programmers/numberBaseball/Solution.java)
-- 전화번호 목록  [[코드]](./src/programmexrs/phoneNumberList/Solution.java)
+- 전화번호 목록  [[코드]](./src/programmers/phoneNumberList/Main.java)
 
