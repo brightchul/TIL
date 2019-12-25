@@ -32,28 +32,28 @@ public class Solution {
         pMap.put(')', '(');
     }
     public String solution(String str) {
-        return sol(str, 0);
+        return sol(str.toCharArray(), 0);
     }
-    public String sol(String str, int idx) {
+    public String sol(char[] arr, int idx) {
         int correctCnt = 0, stackCnt = 0;
         StringBuilder ret = new StringBuilder();
         StringBuilder tempRet = new StringBuilder();
-        for(int i=idx; i<str.length(); i++) {
-            if(str.charAt(i) == '(') {
+        for(int i=idx; i<arr.length; i++) {
+            if(arr[i] == '(') {
                 correctCnt++;
                 stackCnt++;
             } else {
                 correctCnt--;
                 if(stackCnt > 0) stackCnt--;
             }
-            tempRet.append(str.charAt(i));
+            tempRet.append(arr[i]);
 
             if(correctCnt == 0) {
                 if(stackCnt == 0) {
                     ret.append(tempRet.toString());
                     tempRet = new StringBuilder();
                 }else{
-                    ret.append('(').append(sol(str, i+1)).append(')')
+                    ret.append('(').append(sol(arr, i+1)).append(')')
                        .append(subReverse(tempRet.toString()));
                     break;
                 }
