@@ -9,4 +9,4 @@
 - 숫자 야구  [[코드]](./src/programmers/numberBaseball/Solution.java)
 - 전화번호 목록  [[코드]](./src/programmers/phoneNumberList/Main.java)
 - 괄호 변환  [[코드]](./src/programmers/convertParentheses/Solution.java)
-
+- 예산 [[코드]](./src/programmers/budget/Solution.java)
