@@ -10,3 +10,4 @@
 - 전화번호 목록  [[코드]](./src/programmers/phoneNumberList/Main.java)
 - 괄호 변환  [[코드]](./src/programmers/convertParentheses/Solution.java)
 - 예산 [[코드]](./src/programmers/budget/Solution.java)
+- \[1차\] 캐시 [[코드]](./src/programmers/cache1/Solution.java)bg
