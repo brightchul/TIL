@@ -12,3 +12,4 @@
 - 괄호 변환  [[코드]](./src/programmers/convertParentheses/Solution.java)
 - 예산 [[코드]](./src/programmers/budget/Solution.java)
 - \[1차\] 캐시 [[코드]](./src/programmers/cache1/Solution.java)
+- N으로 표현 [[문제풀이]](./src/programmers/expressionN/Solution.md)
