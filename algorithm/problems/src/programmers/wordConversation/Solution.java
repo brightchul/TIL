@@ -38,8 +38,9 @@ public class Solution {
     public boolean checkWords(String one, String target) {
         int count = 0, len = one.length();
         for(int i=0; i<len; i++) {
-            if(one.charAt(i) != target.charAt(i)) count++;
-            if(count > 1) return false;
+            if(one.charAt(i) != target.charAt(i)) {
+                if(++count > 1) return false;
+            }
         }
         return true;
     }
