@@ -14,3 +14,4 @@
 - \[1차\] 캐시 [[코드]](./src/programmers/cache1/Solution.java)
 - N으로 표현 [[문제풀이]](./src/programmers/expressionN/Solution.md)
 - 단어 변환 [[문제풀이]](./src/programmers/wordConversation/Solution.md)
+- 단속 카메라 [[문제풀이]](./src/programmers/IntermittentCamera/Solution.md)
