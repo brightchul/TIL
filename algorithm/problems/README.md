@@ -2,6 +2,7 @@
 ## 알고스팟
 - 록 페스티벌  [[코드1]](./src/algospot/FESTIVAL/Main.java) [[코드2]](./src/algospot/FESTIVAL/Main2.java)
 - 보글 게임 [[코드]](./src/algospot/BOGGLE/Main.java)
+- 트리 순회 순서 변경 [[문제풀이]](./src/algospot/TRAVERSAL/Solution.md)
 
 ## 프로그래머스
 - 입국 심사 [[코드]](./src/programmers/immigrationExamination/Solution.java)
