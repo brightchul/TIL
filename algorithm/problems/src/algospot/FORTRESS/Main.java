@@ -2,7 +2,7 @@ package algospot.FORTRESS;
 /*
 https://algospot.com/judge/problem/read/FORTRESS
 알고스팟 > FORTRESS
-예제 입력
+예제 입력 (1번째에는 가장 큰 외벽의 값을 넣는다.)
 2
 3
 5 5 15
@@ -22,12 +22,20 @@ https://algospot.com/judge/problem/read/FORTRESS
 2
 5
 
-1
+2
 4
 2 2 10
 0 0 1
 2 2 1
 4 4 1
+2
+1 1 10
+3 3 1
+
+1
+2
+1 1 10
+3 3 1
 
 1
 8
@@ -40,6 +48,69 @@ https://algospot.com/judge/problem/read/FORTRESS
 32 10 7
 32 9 4
 
+
+1
+3
+2 2 10
+1 1 1
+3 3 1
+
+3
+5
+3 3 100
+100 100 1
+4 4 10
+2 2 30
+3 3 50
+9
+1 1 500
+3 3 100
+3 3 50
+2 2 30
+4 4 10
+203 203 100
+202 202 30
+204 204 10
+203 203 50
+8
+10 10 1000
+10 10 90
+10 10 80
+10 10 70
+10 10 50
+10 10 1
+10 20 10
+10 20 1
+
+
+1
+8
+10 10 1000
+10 10 90
+10 10 80
+10 10 70
+10 10 50
+10 10 1
+10 20 10
+10 20 1
+
+1
+5
+5 5 100
+1 1 1
+5 5 1
+7 7 1
+1 1 2
+
+//4
+1
+6
+15 15 100
+15 15 99
+5 15 3
+25 15 3
+5 15 2
+25 15 2
  */
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -70,19 +141,23 @@ public class Main {
 }
 
 class MyTree {
-    Node NONE = new Node(null);
+    Node NONE = new Node(new Wall("0", "0", "1000000000"));
     public MyTree() {}
     public void add(Node target) {
         if(NONE.list.size() == 0) {
             NONE.add(target);
+            return;
         }
         Node parentRoot = NONE;
-        Node root = NONE.list.get(0);
+        Node root = parentRoot.list.size() > 1 ? parentRoot : NONE.list.get(0);
         // root 에 속하는지 파악한다.
         loop : while(true) {
             if(root.contains(target)) {
                 // root에 속하면 root안의 다른 list의 개발 항목에도 속하는지 봐야 한다.
-                for(Node child : root.list) {
+                for(int idx = 0; idx<root.list.size();) {
+                    Node child = root.list.get(idx);
+
+              //for(Node child : root.list) {// list에서 remove하면 당겨지면서 에러가 발생가능
                     // list중에 1개에 포함 당하게 되면 그 1개에 다시 과정을 반복한다.
                     // 로직상 포함당하는 것은 1개밖에 없다. list안의 노드 중에 2개 이상의 노드에 한번에 포함당할일은 없다.
                     if(child.contains(target)) {
@@ -92,9 +167,11 @@ class MyTree {
                     }
                     // list중에 역으로 1개 이상 포함하게 되면 그것들을 target.list에 담고 해당 list에서 없애고 그 자리를 차지한다.
                     // 로직상 하나에 포함당하고 다른 하나엔 포함하는 그런 경우는 없다.
-                    if(target.contains(child)) {
-                        target.add(child);
+                    else if(target.contains(child)) {
                         root.remove(child);
+                        target.add(child);
+                    } else {
+                        idx++;
                     }
                 }
                 root.add(target);
@@ -163,6 +240,7 @@ class Node {
     public Node(Wall wall) {
         value = wall;
     }
+
     public boolean contains(Node node) {
         return value.contains(node.value);
     }
@@ -174,6 +252,9 @@ class Node {
         node.parentNode = null;
         return list.remove(node);
     }
+    public Node getChild(int idx) {return this.list.get(idx);}
+    public Node getParent(){return this.parentNode;}
+    public int getLen() {return this.list.size();}
     public String toString() {
         return String.format("%s %s", value.toString(), list.toString());
     }
