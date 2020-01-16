@@ -17,3 +17,4 @@
 - 단어 변환 [[문제풀이]](./src/programmers/wordConversation/Solution.md)
 - 단속 카메라 [[문제풀이]](./src/programmers/IntermittentCamera/Solution.md)
 - 타일 장식물 [[문제풀이]](./src/programmers/tileOrnaments/Solution.md)
+- 소수 찾기 [[문제풀이]](./src/programmers/findingPrimeNumber/Solution.md)
