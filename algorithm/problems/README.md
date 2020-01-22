@@ -19,3 +19,4 @@
 - 타일 장식물 [[문제풀이]](./src/programmers/tileOrnaments/Solution.md)
 - 소수 찾기 [[문제풀이]](./src/programmers/findingPrimeNumber/Solution.md)
 - 종이 접기 [[문제풀이]](./src/programmers/origami/Solution.md)
+- 3차 압축 [[문제풀이]](./src/programmers/compression3/Solution.md)
