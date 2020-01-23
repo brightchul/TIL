@@ -85,9 +85,8 @@ public String findLongWord(int idx) {
 
 ```java
 public int[] solution(String msg) {
+    init(msg);
     List<Integer> ret = new ArrayList<>();
-    initMap();
-    stack = initMsgStack(msg);
     while(!stack.isEmpty()) {
         int idx = findLongestWordIdx();
         ret.add(idx);

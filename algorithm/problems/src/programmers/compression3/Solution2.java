@@ -8,9 +8,8 @@ public class Solution2 {
     Stack<String> stack = new Stack<>();
 
     public int[] solution(String msg) {
+        init(msg);
         List<Integer> ret = new ArrayList<>();
-        initMap();
-        stack = initMsgStack(msg);
         while(!stack.isEmpty()) {
             int idx = findLongestWordIdx();
             ret.add(idx);
@@ -28,12 +27,15 @@ public class Solution2 {
             map.put(one + stack.peek(), map.size());
         return idx;
     }
-    public Stack<String> initMsgStack(String msg) {
-        Stack<String> stack = new Stack<>();
+    public void init(String msg) {
+        initMap();
+        initMsgStack(msg);
+    }
+    public void initMsgStack(String msg) {
+        stack = new Stack<>();
         for(int i = msg.length()-1; i > -1; i--) {
             stack.push(msg.charAt(i) + "");
         }
-        return stack;
     }
     public void initMap() {
         map.clear();
