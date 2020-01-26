@@ -10,14 +10,13 @@ public class Solution2 {
         int beforeNum = n-1, nextNum = n-2;
 
         BigInteger temp = BigInteger.valueOf(beforeNum);
-        BigInteger result = temp;
+        BigInteger result = temp.add(BigInteger.ONE);
 
         for(int i=2; i<= twoCount; i++) {
             temp = temp.multiply(BigInteger.valueOf(nextNum-- * nextNum--)).divide(BigInteger.valueOf(beforeNum-- * i));
             result = result.add(temp);
         }
 
-        result = result.add(BigInteger.ONE);
         return result.remainder(BigInteger.valueOf(CASE_NUM)).intValue();
     }
 }
