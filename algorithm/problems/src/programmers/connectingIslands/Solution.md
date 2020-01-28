@@ -52,10 +52,12 @@ n개의 섬 사이에 다리를 건설하는 비용(costs)이 주어질 때, 최
 
 ## 코드 구현 [[전체코드]](./Solution.java)
 
+
+costs의 값을 하나씩 순회하면서 다 끊긴 섬들의 연결 여부를 확인 및 연결하고 그 후 비용을 반환한다.
 ```java
 public int solution(int n, int[][] costs) {
     Graph graph = new Graph(n);
-    Arrays.sort(costs, (a,b) -> a[2] - b[2]);
+    Arrays.sort(costs, (a,b) -> a[2] - b[2]);   // 최소 비용을 위한 정렬
     for(int[] one : costs) {
         if(!graph.isConnect(one[0], one[1], new int[n])) {
             graph.addBridge(one[0], one[1], one[2]);
