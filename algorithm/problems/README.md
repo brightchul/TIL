@@ -21,3 +21,5 @@
 - 종이 접기 [[문제풀이]](./src/programmers/origami/Solution.md)
 - 3차 압축 [[문제풀이]](./src/programmers/compression3/Solution.md)
 - 2 x n 타일링  [[문제풀이]](./src/programmers/twoNTiling/Solution.md)
+- 네트워크 [[문제풀이]](./src/programmers/netword/Solution.md)
+- 섬 연결하기 [[문제풀이]](./src/programmers/connectingIslands/Solution.md)
