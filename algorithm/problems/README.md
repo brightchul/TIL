@@ -24,3 +24,4 @@
 - 네트워크 [[문제풀이]](./src/programmers/network/Solution.md)
 - 섬 연결하기 [[문제풀이]](./src/programmers/connectingIslands/Solution.md)
 - 가장 먼 노드 [[문제풀이]](./src/programmers/theFarestNode/Solution.md)
+- 등굣길 [[문제풀이]](./src/programmers/schoolWay/Solution.md)
