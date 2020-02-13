@@ -52,7 +52,7 @@ JVM Stacks은 Thread의 수행 정보를 기록하는 Frame을 저장하는 메�
 
 JVM Stacks는 Stack Frame들로 구성이 되는데 JVM은 Stack Frame을 JVM Stacks에 push, pop 작업만 수행한다. 흔히 WAS나 Java Application에 문제가 있을때 `kill -3 pid` 로 Stack Trace, Stack Dump를 얻어내어 분석을 하는데 이 때 나타나는 정보가 JVM Stacks의 Stack Frame의 정보이다. Stack Trace는 각 Strack Frame을 한 라인으로 표현한 것이다.
 
-![](C:\pch\TIL\java\jvm\ch2\JVMStack.png)
+![](./JVMStack.png)
 
 위는 JVM Stacks의 구조를 나타낸 것이다. JVM Stacks에 있는 여러 Stack Frame중 현재 수행하고 있는 메서드의 정보를 저장하는 것을 Current Frame이라고 한다. 그리고 현재 수행하고 있는 메서드의 클래스를 Current Class라고 한다. JVM이 현재 메서드를 수행하고 있다면 Current Frame을 통해 Current Class와 같은 Current정보를 계속해서 주시하게 된다. 이 Stack Frame에는 메서드의 파라미터 변수, 지역 변수, 연산의 결과 등과 같은 데이터들을 저장하게 된다.
 
@@ -185,44 +185,5 @@ Hotspot JVM에서 Stack Size를 조정하는 옵션은 -Xss, -Xoss 두가지가 
 > JVM에서 Native Memory를 설정하는 방법은 따로 없다. 보통 Native Memory는 가용한 프로세스의 메모리 공간에서 Java Runtime Memory를 뺀 만큼을 사용할 수 있다.  가용한 프로세스의 메모리는 OS와 비트에 따라 다르다. 32비트라면 커널과 공유 메모리 영역을 제외한 2GB 정도 사용가능하다. 64비트라면 거의 무한일거 같지만 실제로는 프로세스에서 할당 받을 수 있는 양을 OS별로 정해놓았다. 
 >
 > Native Memory가 부족할 때도 OutOfMomoryError가 발생하게 된다. 이 경우 Java Runtime Memory를 줄이는 것도 한 방법이지만 Native Momory Leak을 의심해 볼 필요도 있다.
-
-
-
-## Method Area
-
-Type Information
-
-Constant Pool
-
-Field Information
-
-Method Information
-
-Class Variable
-
-Reference to Class (ClassLoader)
-
-Reference to Class (class)
-
-Method Table
-
-
-
-## Java Heap
-
-Object Layout
-
-Head의 구조
-
-
-
-## Runtime Data Area Simulation
-
-Java Variable Arrangement
-
-Runtime Data Areas Sinulation
-
-
-
 
 
