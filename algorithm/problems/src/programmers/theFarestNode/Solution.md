@@ -1,4 +1,4 @@
-# 프로그래머스 문제 : 2 x n 타일링
+# 프로그래머스 문제 : 가장 먼 노드
 
 ## 문제 설명 [[링크]](https://programmers.co.kr/learn/courses/30/lessons/49189)
 
