@@ -34,3 +34,4 @@
 - 저울 [[문제풀이]](./src/programmers/scale/Solution.md)
 - 폰켓몬 [[문제풀이]](./src/programmers/ponketmon/Solution.md)
 - 길 찾기 게임 [[문제풀이]](./src/programmers/wayFindingGames/Solution.md)
+- 더 맵게 [[문제풀이]](./src/programmers/moreSpicy/Solution.md)
