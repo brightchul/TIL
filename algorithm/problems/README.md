@@ -36,3 +36,4 @@
 - 길 찾기 게임 [[문제풀이]](./src/programmers/wayFindingGames/Solution.md)
 - 더 맵게 [[문제풀이]](./src/programmers/moreSpicy/Solution.md)
 - 디스트 컨트롤러 [[문제풀이]](./src/programmers/diskController/Solution.md)
+- 줄 서는 방법 [[문제풀이]](./src/programmers/howToLineUp/Solution.md)
