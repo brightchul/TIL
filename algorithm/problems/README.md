@@ -9,6 +9,7 @@
 - 보글 게임 [[코드]](./src/algospot/BOGGLE/Main.java)
 - 트리 순회 순서 변경 [[문제풀이]](./src/algospot/TRAVERSAL/Solution.md)
 - 너드인가 너드가 아닌가? 2 [[문제풀이]](./src/algospot/NERD2/Solution.md)
+- 변화하는 중간 값 [[문제풀이]](./src/algospot/RUNNINGMEDIAN/Solution.md)
 
 ## 프로그래머스
 - 입국 심사 [[코드]](./src/programmers/immigrationExamination/Solution.java)
