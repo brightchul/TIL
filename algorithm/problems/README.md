@@ -42,3 +42,4 @@
 - 베스트앨범 [[문제풀이]](./src/programmers/bestAlbum/Solution.md)
 - 오픈채팅방 [[코드]](./src/programmers/openChattingRoom/Solution.java)
 - 영어 끝말잇기 [[코드]](./src/programmers/englishWordChain/Solution.java)
+- 야근 지수 [[문제풀이]](./src/programmers/nightWork/Solution.md)
