@@ -2,6 +2,12 @@
 
 ## 백준 온라인 저지
 - 부분합(1806) [[문제풀이]](./src/baekjoon/p1806/Solution.md)
+- 단지번호붙이기(2667) [[문제풀이]](./src/baekjoon/p2667/Solution.md)
+- 숫자고르기(2668) [[문제풀이]](./src/baekjoon/p2668/Solution.md)
+- 직사각형 네개의 합집합의 면적 구하기(2669) [[코드]](./src/baekjoon/p2669/Main.java)
+- 연속부분최대곱 (2670) [[코드]](./src/baekjoon/p2670/Main.java)
+- 잠수함식별(2671) [[문제풀이]](./src/baekjoon/p2671/Solution.md)
+- 여러 직사각형의 전체 면적 구하기(2672) [[문제풀이]](./src/baekjoon/p2672/Solution.md)
 
 
 ## 알고스팟
