@@ -54,3 +54,4 @@
 - 기지국 설치 [[문제풀이]](./src/programmers/baseStationInstallation/Solution.md)
 - 최고의 집합 [[문제풀이]](./src/programmers/theBestSet/Solution.md)
 - 카드 게임 [[문제풀이]](./src/programmers/cardGame/Solution.md)
+- 카펫 [[문제풀이]](./src/programmers/carpet/Solution.md)
