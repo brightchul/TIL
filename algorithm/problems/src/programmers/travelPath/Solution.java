@@ -1,6 +1,5 @@
 package programmers.travelPath;
 
-import javafx.util.Pair;
 
 import java.util.AbstractMap;
 import java.util.Comparator;
