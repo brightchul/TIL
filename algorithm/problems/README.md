@@ -17,6 +17,7 @@
 - 너드인가 너드가 아닌가? 2 [[문제풀이]](./src/algospot/NERD2/Solution.md)
 - 변화하는 중간 값 [[문제풀이]](./src/algospot/RUNNINGMEDIAN/Solution.md)
 
+
 ## 프로그래머스
 - 입국 심사 [[코드]](./src/programmers/immigrationExamination/Solution.java)
 - 모의고사  [[코드]](./src/programmers/mockTest1/Solution.java)
@@ -52,3 +53,4 @@
 - 숫자 게임 [[문제풀이]](./src/programmers/numberGame/Solution.md)
 - 기지국 설치 [[문제풀이]](./src/programmers/baseStationInstallation/Solution.md)
 - 최고의 집합 [[문제풀이]](./src/programmers/theBestSet/Solution.md)
+- 카드 게임 [[문제풀이]](./src/programmers/cardGame/Solution.md)
