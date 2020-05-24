@@ -55,3 +55,4 @@
 - 최고의 집합 [[문제풀이]](./src/programmers/theBestSet/Solution.md)
 - 카드 게임 [[문제풀이]](./src/programmers/cardGame/Solution.md)
 - 카펫 [[문제풀이]](./src/programmers/carpet/Solution.md)
+- \[1차\] 셔틀버스 [[문제풀이]](./src/programmers/shuttleBus/Solution.md)
