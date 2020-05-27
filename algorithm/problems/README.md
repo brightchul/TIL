@@ -57,3 +57,4 @@
 - 카펫 [[문제풀이]](./src/programmers/carpet/Solution.md)
 - \[1차\] 셔틀버스 [[문제풀이]](./src/programmers/shuttleBus/Solution.md)
 - 방문 길이 [[문제풀이]](./src/programmers/visitingLength/Solution.md)
+- 리틀 프렌즈 사천성 [[문제풀이]](./src/programmers/littleFriendsSachunsung/Solution.md)

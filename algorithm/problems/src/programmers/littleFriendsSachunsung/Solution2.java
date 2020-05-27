@@ -1,6 +1,7 @@
 package programmers.littleFriendsSachunsung;
 import java.util.*;
 
+// 통과하지 못한 코드. 굳이 이렇게 짤 필요가 없었다.
 public class Solution2 {
 
     StringBuilder result;
