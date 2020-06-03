@@ -9,6 +9,9 @@
 - 잠수함식별(2671) [[문제풀이]](./src/baekjoon/p2671/Solution.md)
 - 여러 직사각형의 전체 면적 구하기(2672) [[문제풀이]](./src/baekjoon/p2672/Solution.md)
 - 거듭제곱 (1740) [[문제풀이]](./src/baekjoon/p1740/Solution.md)
+- 피보나치 함수 (1003) [[문제풀이]](./src/baekjoon/p1003/Solution.md)
+- 1로 만들기 (1463) [[문제풀이]](./src/baekjoon/p1463/Solution.md)
+
 
 ## 알고스팟
 - 록 페스티벌  [[코드1]](./src/algospot/FESTIVAL/Main.java) [[코드2]](./src/algospot/FESTIVAL/Main2.java)
