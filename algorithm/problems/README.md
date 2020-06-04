@@ -11,6 +11,7 @@
 - 거듭제곱 (1740) [[문제풀이]](./src/baekjoon/p1740/Solution.md)
 - 피보나치 함수 (1003) [[문제풀이]](./src/baekjoon/p1003/Solution.md)
 - 1로 만들기 (1463) [[문제풀이]](./src/baekjoon/p1463/Solution.md)
+- 연속합 (1912) [[문제풀이]](./src/baekjoon/p1912/Solution.md)
 
 
 ## 알고스팟
