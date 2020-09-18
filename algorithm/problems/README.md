@@ -66,3 +66,4 @@
 - GPS [[문제풀이]](./src/programmers/GPS/Solution.md)
 - 지형 이동 [[코드]](./src/programmers/terrainMovement/Solution2.java)
 - 카카오프렌즈 컬러링북 [[코드]](./src/programmers/coloringBook/Solution.java)
+- 3xn 타일링 [[코드]](./src/programmers/threeNTiling/Solution.java)
