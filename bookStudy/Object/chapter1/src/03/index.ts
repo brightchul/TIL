@@ -15,7 +15,6 @@ class Bag {
     private invitation?: Invitation;
     private ticket?: Ticket;
 
-    constructor(amount: number);
     constructor(amount: number, invitaion?: Invitation) {
         this.invitation = invitaion;
         this.amount = amount;
@@ -32,12 +31,8 @@ class Bag {
         }
     }
 
-    hasInvitation(): boolean {
+    private hasInvitation(): boolean {
         return this.invitation !== undefined;
-    }
-
-    private hasTicket(): boolean {
-        return this.ticket !== undefined;
     }
 
     private setTicket(ticket: Ticket): void {
@@ -45,9 +40,6 @@ class Bag {
     }
     private minusAmount(amount: number) {
         this.amount -= amount;
-    }
-    plusAmount(amount: number): void {
-        this.amount += amount;
     }
 }
 
@@ -72,16 +64,16 @@ class TicketOffice {
         this.tickets = Array.from(tickets);
     }
 
-    getTicket(): Ticket {
+    sellTicketTo(audience: Audience): void {
+        this.plusAmount(audience.buy(this.getTicket()));
+    }
+
+    private getTicket(): Ticket {
         const oneTicket = this.tickets.splice(0, 1);
         return oneTicket[0];
     }
 
-    minusAmount(amount: number): void {
-        this.amount -= amount;
-    }
-
-    plusAmount(amount: number): void {
+    private plusAmount(amount: number): void {
         this.amount += amount;
     }
 }
@@ -97,7 +89,7 @@ class TicketSeller {
         return this.ticketOffice;
     }
     sellTo(audience: Audience): void {
-        this.ticketOffice.plusAmount(audience.buy(this.ticketOffice.getTicket()));
+        this.ticketOffice.sellTicketTo(audience);
     }
 }
 

@@ -5,7 +5,7 @@ class Invitation {
 class Ticket {
     private fee: number = 0;
 
-    public getFee(): number {
+    getFee(): number {
         return this.fee;
     }
 }
@@ -21,21 +21,21 @@ class Bag {
         this.amount = amount;
     }
 
-    public hasInvitation(): boolean {
+    hasInvitation(): boolean {
         return this.invitation !== undefined;
     }
 
-    public hasTicket(): boolean {
+    hasTicket(): boolean {
         return this.ticket !== undefined;
     }
 
-    public setTicket(ticket: Ticket): void {
+    setTicket(ticket: Ticket): void {
         this.ticket = ticket;
     }
-    public minusAmount(amount: number) {
+    minusAmount(amount: number) {
         this.amount -= amount;
     }
-    public plusAmount(amount: number): void {
+    plusAmount(amount: number): void {
         this.amount += amount;
     }
 }
@@ -68,9 +68,8 @@ class TicketOffice {
         this.tickets = Array.from(tickets);
     }
 
-    getTicket(): Ticket {
-        const oneTicket = this.tickets.splice(0, 1);
-        return oneTicket[0];
+    private getTicket(): Ticket {
+        return this.tickets.shift();
     }
 
     minusAmount(amount: number): void {

@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "debug": "ts-node-dev --respawn ./src",
-        "dev": "ts-node-dev --respawn --clear src/03"
+        "debug": "ts-node ./src",
+        "dev": "ts-node-dev --respawn --clear src"
     },
     "keywords": [],
     "author": "",

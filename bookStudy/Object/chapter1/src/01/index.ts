@@ -1,41 +1,49 @@
 class Invitation {
     private when?: Date;
+
+    constructor(when: Date) {
+        this.when = when;
+    }
 }
 
 class Ticket {
-    private fee: number = 0;
+    private fee: number;
 
-    public getFee(): number {
+    constructor(fee: number) {
+        this.fee = fee;
+    }
+    getFee(): number {
         return this.fee;
     }
 }
 
 class Bag {
-    private amount: number = 0;
+    private amount: number;
     private invitation?: Invitation;
     private ticket?: Ticket;
 
-    constructor(amount: number);
     constructor(amount: number, invitaion?: Invitation) {
         this.invitation = invitaion;
         this.amount = amount;
     }
 
-    public hasInvitation(): boolean {
+    hasInvitation(): boolean {
         return this.invitation !== undefined;
     }
 
-    public hasTicket(): boolean {
+    hasTicket(): boolean {
         return this.ticket !== undefined;
     }
 
-    public setTicket(ticket: Ticket): void {
+    setTicket(ticket: Ticket): void {
         this.ticket = ticket;
     }
-    public minusAmount(amount: number) {
+
+    minusAmount(amount: number) {
         this.amount -= amount;
     }
-    public plusAmount(amount: number): void {
+
+    plusAmount(amount: number): void {
         this.amount += amount;
     }
 }
@@ -58,18 +66,22 @@ class TicketOffice {
 
     constructor(amount: number, ...tickets: Array<Ticket>) {
         this.amount = amount;
-        this.tickets = Array.from(tickets);
+        this.tickets = Array.from(tickets) as Array<Ticket>;
     }
 
-    sellTicketTo(audience: Audience): void {
-        this.plusAmount(audience.bug(this.getTicket()));
+    hasTicket(): boolean {
+        return this.tickets.length > 0;
     }
 
-    private getTicket(): Ticket {
-        return this.tickets.splice(0, 1);
+    getTicket(): Ticket | undefined {
+        return this.tickets.shift();
     }
 
-    private plusAmount(amount: number): void {
+    minusAmount(amount: number): void {
+        this.amount -= amount;
+    }
+
+    plusAmount(amount: number): void {
         this.amount += amount;
     }
 }
@@ -79,10 +91,6 @@ class TicketSeller {
 
     constructor(ticketOffice: TicketOffice) {
         this.ticketOffice = ticketOffice;
-    }
-
-    sellTo(audience: Audience): void {
-        this.ticketOffice.sellTicketTo(audience);
     }
 
     getTicketOffice() {
@@ -98,14 +106,50 @@ class Theater {
     }
 
     enter(audience: Audience): void {
+        if (!this.ticketSeller.getTicketOffice().hasTicket()) return;
+
+        const ticket: Ticket = this.ticketSeller.getTicketOffice().getTicket()!;
         if (audience.getBag().hasInvitation()) {
-            const ticket: Ticket = this.ticketSeller.getTicketOffice().getTicket();
             audience.getBag().setTicket(ticket);
         } else {
-            const ticket: Ticket = this.ticketSeller.getTicketOffice().getTicket();
             audience.getBag().minusAmount(ticket.getFee());
             this.ticketSeller.getTicketOffice().plusAmount(ticket.getFee());
             audience.getBag().setTicket(ticket);
         }
     }
+}
+
+function objShow(obj: object) {
+    console.log(obj.constructor.name + " " + JSON.stringify(obj));
+}
+
+export default function main() {
+    const when20200920 = new Invitation(new Date("2020-09-20"));
+
+    const ticket1 = new Ticket(10);
+    const ticket2 = new Ticket(10);
+
+    const bagWithoutInvitation = new Bag(100);
+    const bagWithInvitaion = new Bag(100, when20200920);
+
+    const audienceWithoutInvitaion = new Audience(bagWithoutInvitation);
+    const audienceWithInvitaion = new Audience(bagWithInvitaion);
+
+    objShow(audienceWithoutInvitaion);
+    objShow(audienceWithInvitaion);
+
+    const ticketOffice = new TicketOffice(100, ticket1, ticket2);
+    const ticketSeller = new TicketSeller(ticketOffice);
+
+    objShow(ticketOffice);
+
+    const theater = new Theater(ticketSeller);
+
+    theater.enter(audienceWithInvitaion);
+    theater.enter(audienceWithoutInvitaion);
+
+    objShow(audienceWithoutInvitaion);
+    objShow(audienceWithInvitaion);
+
+    objShow(ticketOffice);
 }
