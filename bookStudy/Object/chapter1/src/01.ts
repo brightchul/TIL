@@ -1,3 +1,5 @@
+import { objShow } from "./util";
+
 class Invitation {
     private when?: Date;
 
@@ -117,10 +119,6 @@ class Theater {
             audience.getBag().setTicket(ticket);
         }
     }
-}
-
-function objShow(obj: object) {
-    console.log(obj.constructor.name + " " + JSON.stringify(obj));
 }
 
 export default function main() {

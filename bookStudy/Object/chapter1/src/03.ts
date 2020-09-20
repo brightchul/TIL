@@ -1,9 +1,19 @@
+import { objShow } from "./util";
+
 class Invitation {
     private when?: Date;
+
+    constructor(when: Date) {
+        this.when = when;
+    }
 }
 
 class Ticket {
     private fee: number = 0;
+
+    constructor(fee: number) {
+        this.fee = fee;
+    }
 
     public getFee(): number {
         return this.fee;
@@ -38,6 +48,7 @@ class Bag {
     private setTicket(ticket: Ticket): void {
         this.ticket = ticket;
     }
+
     private minusAmount(amount: number) {
         this.amount -= amount;
     }
@@ -85,9 +96,6 @@ class TicketSeller {
         this.ticketOffice = ticketOffice;
     }
 
-    getTicketOffice() {
-        return this.ticketOffice;
-    }
     sellTo(audience: Audience): void {
         this.ticketOffice.sellTicketTo(audience);
     }
@@ -103,4 +111,35 @@ class Theater {
     enter(audience: Audience): void {
         this.ticketSeller.sellTo(audience);
     }
+}
+
+export default function main() {
+    const when20200920 = new Invitation(new Date("2020-09-20"));
+
+    const ticket1 = new Ticket(10);
+    const ticket2 = new Ticket(10);
+
+    const bagWithoutInvitation = new Bag(100);
+    const bagWithInvitaion = new Bag(100, when20200920);
+
+    const audienceWithoutInvitaion = new Audience(bagWithoutInvitation);
+    const audienceWithInvitaion = new Audience(bagWithInvitaion);
+
+    objShow(audienceWithoutInvitaion);
+    objShow(audienceWithInvitaion);
+
+    const ticketOffice = new TicketOffice(100, ticket1, ticket2);
+    const ticketSeller = new TicketSeller(ticketOffice);
+
+    objShow(ticketOffice);
+
+    const theater = new Theater(ticketSeller);
+
+    theater.enter(audienceWithInvitaion);
+    theater.enter(audienceWithoutInvitaion);
+
+    objShow(audienceWithoutInvitaion);
+    objShow(audienceWithInvitaion);
+
+    objShow(ticketOffice);
 }
