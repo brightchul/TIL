@@ -1,4 +1,3 @@
-// 상영 : 상영할 영화, 순번, 상영 시작시간
 class Screening {
     private movie: Movie;
     private sequence: number;
@@ -21,15 +20,14 @@ class Screening {
     getMovieFee(): Money {
         return this.movie.getFee();
     }
+
     calculateFee(audienceCount: number) {
         return this.movie
             .calculateMovieFee(this)
             .times(audienceCount);
     }
-    reserve(
-        customer: CustomElementRegistry,
-        audienceCount: number
-    ): Reservation {
+
+    reserve(customer: Customer, audienceCount: number): Reservation {
         return new Reservation(
             customer,
             this,
@@ -72,14 +70,23 @@ class Money {
     }
 }
 
+class Customer {
+    private name: string;
+    private id: string;
+    constructor(name: string, id: string) {
+        this.name = name;
+        this.id = id;
+    }
+}
+
 class Reservation {
-    private customer: CustomElementRegistry;
+    private customer: Customer;
     private screening: Screening;
     private fee: Money;
     private audienceCount: number;
 
     constructor(
-        customer: CustomElementRegistry,
+        customer: Customer,
         screening: Screening,
         fee: Money,
         audienceCount: number
