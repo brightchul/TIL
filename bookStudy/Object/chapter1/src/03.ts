@@ -1,7 +1,7 @@
 import { objShow } from "./util";
 
 class Invitation {
-    private when?: Date;
+    private when: Date;
 
     constructor(when: Date) {
         this.when = when;
@@ -9,7 +9,7 @@ class Invitation {
 }
 
 class Ticket {
-    private fee: number = 0;
+    private fee: number;
 
     constructor(fee: number) {
         this.fee = fee;
@@ -21,7 +21,7 @@ class Ticket {
 }
 
 class Bag {
-    private amount: number = 0;
+    private amount: number;
     private invitation?: Invitation;
     private ticket?: Ticket;
 
@@ -76,12 +76,16 @@ class TicketOffice {
     }
 
     sellTicketTo(audience: Audience): void {
-        this.plusAmount(audience.buy(this.getTicket()));
+        if (!this.hasTicket()) return;
+        this.plusAmount(audience.buy(this.getTicket()!));
     }
 
-    private getTicket(): Ticket {
-        const oneTicket = this.tickets.splice(0, 1);
-        return oneTicket[0];
+    private hasTicket(): boolean {
+        return this.tickets.length > 0;
+    }
+
+    private getTicket(): Ticket | undefined {
+        return this.tickets.shift();
     }
 
     private plusAmount(amount: number): void {
