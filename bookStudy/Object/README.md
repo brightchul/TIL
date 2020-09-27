@@ -1,8 +1,13 @@
 # 북스터디 : 오브젝트
 
+![](./book.png)
+
+​    
+
 ## 내용정리
 
-- [1장](./chapter1/chapter1.md) , [코드](./chapter1/src)
+- [[1장]](./chapter1/chapter1.md) [[코드]](./chapter1/src) [[온라인 실행]](https://codesandbox.io/s/heuristic-khorana-c9h0o)
+- [[2장]](./chapter2/chapter2.md) [[코드]](./chapter2/src) [[온라인 실행]](https://codesandbox.io/s/billowing-meadow-lfxti?file=/src/index.ts)
 
 
 

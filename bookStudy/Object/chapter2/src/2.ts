@@ -260,12 +260,12 @@ export default function () {
             new SequenceCondition(1),
             new SequenceCondition(10),
             new PeriodCondition(
-                1,
+                DayOfWeek.MONDAY,
                 new Date("2020-09-21 10:00"),
                 new Date("2020-09-21 11:59")
             ),
             new PeriodCondition(
-                4,
+                DayOfWeek.THURSDAY,
                 new Date("2020-09-24 10:00"),
                 new Date("2020-09-24 20:59")
             )
@@ -276,13 +276,13 @@ export default function () {
         new PercentDiscountPolicy(
             0.1,
             new PeriodCondition(
-                2,
+                DayOfWeek.TUESDAY,
                 new Date("2020-09-22 14:00"),
                 new Date("2020-09-22 16:59")
             ),
             new SequenceCondition(2),
             new PeriodCondition(
-                4,
+                DayOfWeek.THURSDAY,
                 new Date("2020-09-22 10:00"),
                 new Date("2020-09-22 13:59")
             )
@@ -296,13 +296,13 @@ export default function () {
         new PercentDiscountPolicy(
             0.1,
             new PeriodCondition(
-                2,
+                DayOfWeek.TUESDAY,
                 new Date("2020-09-22 14:00"),
                 new Date("2020-09-22 16:59")
             ),
             new SequenceCondition(2),
             new PeriodCondition(
-                4,
+                DayOfWeek.THURSDAY,
                 new Date("2020-09-22 10:00"),
                 new Date("2020-09-22 13:59")
             )
