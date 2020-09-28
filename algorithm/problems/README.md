@@ -69,3 +69,4 @@
 - 3xn 타일링 [[코드]](./src/programmers/threeNTiling/Solution.java)
 - N개의 최소공배수 [[코드]](./src/programmers/leastCommonMultipleOfNValue/Solution.java)
 - \[3차\] 파일명 정렬 [[코드]](./src/programmers/fileNameSort/Solution.java)
+- 보행자 천국 [[코드]](./src/programmers/walkerHeaven/Solution.java)
