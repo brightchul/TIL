@@ -90,3 +90,4 @@
 -   [Binary Search Tree](./AlgorithmicProblemSolvingStrategies/ch22/ch22.md)
 -   [Priority Queue](./AlgorithmicProblemSolvingStrategies/ch23/ch23.md)
 -   [Dijkstra](./AlgorithmicProblemSolvingStrategies/ch30/dijkstra.md)
+-   [Segment Tree](./AlgorithmicProblemSolvingStrategies/ch24/ch24.md)
