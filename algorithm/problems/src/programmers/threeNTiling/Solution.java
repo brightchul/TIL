@@ -3,17 +3,18 @@ package programmers.threeNTiling;
 public class Solution {
   public int solution(int n) {
     if (n % 2 == 1) return 0;
-    if (n == 2) return 3;
-    if (n == 4) return 11;
 
-    long one = 3, two = 11, three = 0, add = 2;
-    for (int i = 6; i <= n; i += 2) {
-      add += (one * 2);
-      three = (3 * two + add) % 1000000007;
-      one = two;
-      two = three;
+    long[] K = new long[n + 1];
+    long[] A = new long[n + 1];
+    K[1] = 1;
+    K[2] = 3;
+    A[2] = 2;
+
+    for (int i = 4; i <= n; i += 2) {
+      A[i] = A[i - 2] + K[i - 4] * 2;
+      K[i] = (3 * K[i - 2] + A[i]) % 1000000007;
     }
 
-    return (int) three;
+    return (int) K[n];
   }
 }
