@@ -75,6 +75,7 @@
 -   보행자 천국 [[코드]](./problems/src/programmers/walkerHeaven/Solution.java)
 -   직사각형 넓이 [[문제풀이]](./problems/src/programmers/rectangleArea/Solution.md)
 -   추석 트래픽 [[문제풀이]](./problems/src/programmers/chuseokTraffic/Solution.md)
+-   순위 [[문제풀이]](./problems/src/programmers/rank/Solution.md)
 
 ## 알고리즘 문제 해결 전략
 
