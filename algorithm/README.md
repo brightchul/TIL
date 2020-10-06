@@ -14,6 +14,7 @@
 -   1로 만들기 (1463) [[문제풀이]](./problems/src/baekjoon/p1463/Solution.md)
 -   연속합 (1912) [[문제풀이]](./problems/src/baekjoon/p1912/Solution.md)
 -   스티커 (9465) [[문제풀이]](./problems/src/baekjoon/p9465/Solution.md)
+-   최솟값과 최댓값 (2357) [[문제풀이]](./problems/src/baekjoon/p2357/Solution.md)
 
 ### 알고스팟
 
