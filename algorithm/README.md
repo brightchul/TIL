@@ -15,6 +15,9 @@
 -   연속합 (1912) [[문제풀이]](./problems/src/baekjoon/p1912/Solution.md)
 -   스티커 (9465) [[문제풀이]](./problems/src/baekjoon/p9465/Solution.md)
 -   최솟값과 최댓값 (2357) [[문제풀이]](./problems/src/baekjoon/p2357/Solution.md)
+-   2×n 타일링 [[코드]](./problems/src/baekjoon/p11726/Main.java)
+-   RGB거리 [[문제풀이]](./problems/src/baekjoon/p1149/Solution.md)
+-   1, 2, 3 더하기 [[코드]](./problems/src/baekjoon/p9095/Main.java)
 
 ### 알고스팟
 
