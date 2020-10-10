@@ -19,6 +19,7 @@
 -   RGB거리 (1149) [[문제풀이]](./problems/src/baekjoon/p1149/Solution.md)
 -   1, 2, 3 더하기 (9095) [[코드]](./problems/src/baekjoon/p9095/Main.java)
 -   계단 오르기 (2579) [[문제풀이]](./problems/src/baekjoon/p2579/Solution.md)
+-   평범한 배낭 (12865) [[문제풀이]](./problems/src/baekjoon/p12865/Solution.md)
 
 ### 알고스팟
 
