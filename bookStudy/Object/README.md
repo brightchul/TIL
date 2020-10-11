@@ -6,8 +6,9 @@
 
 ## 내용정리
 
-- [[1장]](./chapter1/chapter1.md) [[코드]](./chapter1/src) [[온라인 실행]](https://codesandbox.io/s/heuristic-khorana-c9h0o)
-- [[2장]](./chapter2/chapter2.md) [[코드]](./chapter2/src) [[온라인 실행]](https://codesandbox.io/s/billowing-meadow-lfxti?file=/src/index.ts)
+- [[1장 객체, 설계]](./chapter1/chapter1.md) [[코드]](./chapter1/src) [[온라인 실행]](https://codesandbox.io/s/heuristic-khorana-c9h0o)
+- [[2장 객체지향 프로그래밍]](./chapter2/chapter2.md) [[코드]](./chapter2/src) [[온라인 실행]](https://codesandbox.io/s/billowing-meadow-lfxti?file=/src/index.ts)
+- [[3장 역할, 책임, 협력]](./chapter3/chapter3.md)
 
 
 
