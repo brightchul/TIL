@@ -21,6 +21,9 @@
 -   계단 오르기 (2579) [[문제풀이]](./problems/src/baekjoon/p2579/Solution.md)
 -   평범한 배낭 (12865) [[문제풀이]](./problems/src/baekjoon/p12865/Solution.md)
 -   대표 자연수 (2548) [[문제풀이]](./problems/src/baekjoon/p2548/Solution.md)
+-   정수 삼각형 (1932) [[코드]](./problems/src/baekjoon/p1932/Main.java)
+
+​    
 
 ### 알고스팟
 
@@ -30,6 +33,8 @@
 -   너드인가 너드가 아닌가? 2 [[문제풀이]](./problems/src/algospot/NERD2/Solution.md)
 -   변화하는 중간 값 [[문제풀이]](./problems/src/algospot/RUNNINGMEDIAN/Solution.md)
 -   등산로 [[코드]](./problems/src/algospot/MORDOR/Main.java)
+
+​    
 
 ### 프로그래머스
 
