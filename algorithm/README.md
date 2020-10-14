@@ -23,6 +23,7 @@
 -   대표 자연수 (2548) [[문제풀이]](./problems/src/baekjoon/p2548/Solution.md)
 -   정수 삼각형 (1932) [[코드]](./problems/src/baekjoon/p1932/Main.java)
 -   쉬운 계단수 (10844) [[문제풀이]](./problems/src/baekjoon/p10844/Solution.md)
+-   포도주 시식 (2156) [[문제풀이]](./problems/src/baekjoon/p2156/Solution.md)
 
 ​    
 
