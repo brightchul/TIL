@@ -25,6 +25,7 @@
 -   쉬운 계단수 (10844) [[문제풀이]](./problems/src/baekjoon/p10844/Solution.md)
 -   포도주 시식 (2156) [[문제풀이]](./problems/src/baekjoon/p2156/Solution.md)
 -   엑셀 (2757) [[문제풀이]](./problems/src/baekjoon/p2757/Solution.md)
+-   가장 긴 증가하는 부분 수열 (11053) [[문제풀이]](./problems/src/baekjoon/p11053/Solution.md)
 
 ​    
 
