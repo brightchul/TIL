@@ -343,3 +343,240 @@ public class Movie {
 데이터 중심의 설계는 전체 시스템을 하나의 거대한 의존성 덩어리로 만들어 버리기 때문에 어떤 변경이라도 일단 발생하고 나면 시스템 전체가 요동칠 수 밖에 없다.
 
 ​    
+
+### 낮은 응집도
+
+서로 다른 이유로 변경되는 코드가 하나의 모듈 안에 공존할 때 모듈의 응집도가 낮다고 말한다. 따라서 각 모듈의 응집도를 살펴보기 위해서는 코드를 수정하는 이유가 무엇인지 살펴봐야 한다.
+
+ReservationAgency를 예로 들어 변경과 응집도 사이의 관계를 살펴보자. 아래 같은 경우에 ReservationAgency 코드가 수정해야 할 것이다.
+
+- 할인 정책이 추가도리 경우
+- 할인 정책별로 할인 요금을 계산하는 방법이 변경될 경우
+- 할인 조건이 추가되는 경우
+- 할인 조건별로 할인 여부를 판단하는 방법이 변경될 경우
+- 예매 요금을 계산하는 방법이 변경될 경우
+
+
+
+낮은 응집도는 2가지 측면에서 설계에 문제를 일으킨다.
+
+- 변경의 이유가 서로 다른 코드들을 하나의 모듈안에 뭉쳐놓았기 때문에 변경과 아무 사관이 없는 코드들이 영향을 받게 된다.
+- 하나의 요구사항 변경을 반영하기 위해 동시에 여러 모듈을 수정해야 한다. 응집도가 낮을 경우 다른 모듈에 위치해야 할 책임의 일부가 엉뚱한 곳에 위치하게 되기 때문이다.
+
+​    
+
+## 04. 자율적인 객체를 향해
+
+### 캡슐화를 지켜라
+
+낮은 응집도와 높은 결합도라는 문제의 근본적인 원인은 캡슐화의 원칙을 위반했기 때문이다. 객체는 스스로의 상태를 책임져야 하며 외부에서는 인터페이스에 정의된 메서드를 통해서만 상태에 접근할 수 있어야 한다.
+
+여기서 메서드는 객체가 책임져야 하는 무언가를 수행하는 메서드이다. 속석의 가시성을 private으로 설정했다고 해도 접근자와 수정자를 통해 속성을 외부로 제공하고 있다면 캡슐화를 위반하는 것이다.
+
+```typescript
+class Rectangle {
+    private left: number;
+    private top: number;
+    private right: number;
+    private bottom: number;
+    
+    constructor(left: number, top: number, right: number, bottom: number) {
+        this.left = left;
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
+    }
+    
+    public getLeft(): number {
+        return this.left;
+    }
+    public setLeft(left: number): void {
+        this.left = left;
+    }
+    public getTop(): number {
+        return this.top;
+    }
+    public setTop(top: number): void {
+        this.top = top;
+    }
+    public getRight(): number {
+        return this.right;
+    }
+    public setRight(right: number): void {
+        this.right = right;
+    }
+    public getBottom(): number {
+        return this.bottom;
+    }
+    public setBottom(bottom: number): void {
+        this.bottom = bottom;
+    }
+}
+```
+
+이 사각형의 너비와 높이를 증가시키는 코드가 필요하다고 가정해 보자. 아마 이 코드는 Rectangle 외부의 어떤 클래스 안에 다음과 같이 구현되어 있을 것이다.
+
+```typescript
+class AnyClass {
+    public anyMethod(rectangle: Rectangle, multiple: number) {
+        rectangle.setRight(rectangle.getRight() * multiple);
+        rectangle.setBottom(rectangle.getBottom() * multiple);
+        // ....
+    }
+}
+```
+
+이 코드의 첫번째 문제는 '코드 중복'이 발생할 확률이 높다는 것이다. 다른 고셍서도 사각형의 너비와 높이를 증가시키는 코드가 필요하다면 getRight, getBottom메서드를 호출해서 right, bottom을 가져온 후 수정자 메서드를 이용해 값을 설정하는 유사한 코드가 존재할 것이다. 코드 중복은 악의 근원이다.
+
+두번째 문제점은 '변경에 취약'하다는 점이다. Rectangle이 right, bottom 대신 length, height를 이용하는 것으로 수정한다면 접근자, 수정자를 각각 getLength, getHeight, setLength, setHeight로 변경해야 하고 기존에 메서드를 사용하던 모든 코드에 영향을 미친다.
+
+이것을 해결하는 방법은 캡슐화를 강화시키는 것이다.
+
+```typescript
+class Rectangle {
+    public void enlarge(int multiple) {
+        right *= multiple;
+        bottom *= multiple;
+    }
+}
+```
+
+자신의 크기를 Rectangle 스스로 증가시키도록 '책임을 이동'시킨 것이다. 즉 객체가 자기 스스로를 책임진다는 의미이다.
+
+​     
+
+### 스스로 자신의 데이터를 책임지는 객체
+
+객체는 내부의 데이터보다 객체가 협력에 참여하면서 수행할 책임을 정의하는 오퍼레이션이 더 중요하다. 따라서 객체 설계할 때 "이 객체가 어떤 데이터를 포함해야 하는가?" 라는 질문은 다음 2가지로 나눌 수 있다.
+
+-  이 객체가 어떤 데이터를 포함해야 하는가?
+- 이 객체가 데이터에 대해 수행해야 하는 오퍼레이션은 무엇인가?
+
+이 두 질문을 조합하면 객체의 내부 상태를 저장하는 방식과 저장된 상태에 대해 호출할 수 있는 오퍼레이션의 집합을 얻을 수 있다. 즉 새로운 데이터 타입을 만들 수 있다.
+
+###       
+
+## 05. 하지만 여전히 부족하다
+
+### 캡슐화 위반
+
+```typescript
+public class DiscountCondition {
+    private type: DiscountConditionType;
+    private sequence: number;
+    private dayOfWeek: DayOfWeek;
+    private startTime: Date;
+    private endTime: Date;
+    
+    public getType(): DiscountConditionType{
+        //...
+    }
+    public isDiscountable(dayOfWeek?: DayOfWeek, time?:Date, sequence?: int): boolean {
+        //...
+    }
+}
+```
+
+`isDiscountable(dayOfWeek?: DayOfWeek, time?:Date, sequence?: int)` 를 보면 DiscountCondition 속성으로 포함되어 있는 DayOfWeek 타입의 요일 정보와 LocalTime 타이브이 시간 정보가 인스턴스 변수로 포함되어 있다는 사실을 인터페이스를 통해 외부에 노출한다. 비록 setType 메서드는 없지만 getType 메서드를 통해 내부에 DiscountConditionType을 포함하고 있다는 정보 역시 노출하고 있다.
+
+만약 DiscountCondition의 속성을 변경해야 한다면 isDiscountable 메서드의 파라미터를 수정하고 이 메서드를 사용하는 모든 클라이언트들도 함께 수정해야 한다. 내부 구현의 변겨이 외부로 퍼져나가는 파급효과는 캡슈로하가 부족하다는 증거이다.
+
+```typescript
+public class Movie {
+    private title: string;
+    private runningTime: number;
+    private fee: Money;
+    private discountConditions: Array<DiscountCondition>;
+    
+    private movieType: MovieTYpe;
+    private discountAmount: Money;
+    private discountPercent: number;
+    
+    public getMovieType(): MovieType {
+        // ...
+    }
+    public calculateAmountDiscountedFee(): Money {
+        // ...
+    }
+    public calculatePercentDiscountedFee(): Money {
+        // ...
+    }
+    public calculateNoneDiscountedFee(): Money {
+        // ...
+    }
+}
+```
+
+calculateAmountDiscountedFee, calculatePercentDiscountedFee, calculateNoneDiscountedFee 라는 세 개의 메서드는 할인 정책에는 금액 할인 정책, 비율 할인 정책, 미적용의 세가지가 존재한다는 것을 알려준다.
+
+만약 새로운 할인 정책이 추가되거나 제거된다면 의존하는 모든 클라이언트가 영향을 받을 것이다. 따라서 Movie는 세 가지 할인 정책을 포함하고 있다는 내부 구현을 성공적으로 캡슐화하지 못한다.
+
+​     
+
+### 높은 결합도
+
+```typescript
+public class Movie
+    public isDiscountable(whenScreened: Date, sequence: number): boolean {
+        return discountConditions.find(condition => {
+            if(condition.getType() === DiscountConditionType.PERIOD) {
+                if(condition.isDiscountable(whenScreened.getDayOfWeek(), whenScreened.toLocalTime())) {
+                    return true;
+                }
+            } else {
+                if(condition.isDiscountable(sequence)) return true;
+            }
+            return false;
+        }) !== undefined;       
+    }
+}
+```
+
+Movie의 isDiscountable 메서드는 DiscountCondition의 목록을 순회하면서 할인 조건의 종류에 따라 DiscountCondition에 구현된 두개의 isDiscountable 메서드 중에서 적절한 것을 호출한다. 중요한 것은 Movie와 DiscountCondition 사이의 결합도이므로 DiscountCondition에 대한 ㅇ떤 변경이 Movie에게 까지 영향을 미치는지 살펴봐야 한다.
+
+- DiscountCondition의 기간 할인 조건의 명칭이 PERIOD에서 다른 값으로 변경된다면 Movie를 수정해야 한다.
+- DiscountCondition의 종류가 추가되거나 삭제된다면 Movie 안의 if~ 구문을 수정해야 한다.
+- 각 DiscountCondition의 만족 여부를 판단하는데 필요한 정보가 변경된다면 Movie의 isDiscountable 메서드로 전달된 파라미터를 변경해야 한다. 이로 인해 Movie의 isDiscountable 메서드 시그니처도 함께 변경될 것이고 결과적으로 이 메서드에 의존하는 Screening에 대한 변경을 초래할 것이다.
+
+DiscountCondition을 변경을 하게 되면 Movie뿐만 아니라 관련 있는 모든 객체들이 문제가 생긴다.
+
+​     
+
+### 낮은 응집도
+
+```typescript
+public clas Screening {
+    public Money calculateFee(int audienceCount) {
+        switch(movie.getMovieType()) {
+            case AMOUNT_DISCOUNT:
+                if(movie.isDiscountable(whenScreened, sequence))
+                    return movie.calculateAmountDiscountedFee().times(audienceCount);
+            case PERCENT_DISCOUNT:
+                if(movie.isDiscountable(whenScreened, sequence)) 
+                    return  movie.calculatePercentDiscountedFee().times(audienceCount);
+            case NONE_DISCOUNT:
+                return movie.calculateNoneDiscountedFee().times(audienceCount);
+            default:
+                return movie.calculateNoneDiscountedFee().times(audienceCount);
+        }
+    }
+}
+```
+
+할인 조건의 종류를 변경하기 위해서는 DiscountCondition, Movie, Screening을 함께 수정해야 한다. 하나의 변경을 수용하기 위해 코드의 여러 곳을 동시에 변경해야 한다는 것은 설계의 응집도가 낮다는 증거이다.
+
+DiscountCondition과 Movie의 내부 구현이 인터페이스에 그대로 노출되고 있고 Screening은 노출된 구현에 직접적으로 의존하고 있다. 이것은 원래 DiscountCondition이나 Movie에 위치해야 하는 로직이 Screening으로 새어나왔기 때문이다.
+
+###     
+
+## 06. 데이터 중심 설계의 문제점
+
+### 데이터 중심 설계는 객체의 행동보다는 상태에 초점을 맞춘다
+
+데이터는 구현의 일부이다. 데이터 주도 설계는 설계를 시작하는 처음부터 데이터에 관해 결정하도록 강요하기 때문에 너무 이른 시기에 내부 구현에 초점을 맞추게 된다. 데이터 중심 설계 방식은 데이터 와 기능을 분리하는 절차적 프로그래밍 방식을 따르게 되면서 객체지향 패러다임에 지키지 않게 된다. 접근자와 수정자는 public 속성과 차이가 없기 때문에 객체의 캡슐화가 무너질 수 밖에 없다. 또한 데이터를 먼저 결정하고 데이터 처리 오퍼레이션을 나중에 결정하면 데이터에 관한 지식이 객체의 인터페이스에 고스란히 느러나게 되어 캡슐화에 실패한다.
+
+​     
+
+### 데이터 중심 설계는 객체를 고립시킨 채 오퍼레이션을 정의하도록 만든다.
+
+데이터 중심 설계에서 초점은 객체의 내부로 향한다. 실행 문맥에 대한 고민 없이 객체가 관리할 데이터의 세부 정보를 먼저 결정한다. 객체의 구현이 결정된 상태에서 다른 객체와의 협력을 고민하기 때문에 이미 구현된 객체의 인터페이스를 억지로 끼워넣는다. 따라서 객체의 협력이 구현 세부사항에 종속되어 있고 객체 내부 구현이 변경되었을 때 객체 모두가 영향을 받을 수밖에 없는 것이다.
