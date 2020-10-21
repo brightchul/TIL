@@ -2,7 +2,7 @@
 
 이번 장에서는 상태를 표현하는 데이터 중심의 설계를 살펴보고 객체지향 적 설계 구조와의 차이점을 살펴본다.
 
-​    
+​     
 
 ## 01. 데이터 중심의 영화 예매 시스템
 
@@ -29,11 +29,9 @@ public class Movie {
 }
 ```
 
-가장 두드러지는 차이점은 할인 조건의 목록(discountCondition)이 인스턴스 변수로 Movie 안에 직접 포함되어 있다는 것이다. 또한 할인 정책을 DiscountPolicy라는 별도의 클래스로 분리했던 이전 예제와 달리 금액 할인 정책에 사용되는 할인 금액(discountAmount)과 비율 할인 정책에 사용되는 할인 비율(discountPercent)을 Movie안에서 직접 정의하고 있다.
+가장 두드러지는 차이점은 할인 조건의 목록(discountCondition)이 인스턴스 변수로 Movie 안에 직접 포함되어 있다는 것이다. 금액 할인 정책에 사용되는 할인 금액(discountAmount)과 비율 할인 정책에 사용되는 할인 비율(discountPercent)을 Movie안에서 직접 정의하고 있다.
 
-할인 정책은 영화별로 오직 하나만 지정할 수 있기 때문에 한 시점에 discountAmount와 discountPercent중 하나의 값만 사용될 수 있다. 할인 정책의 종류를 결정하는 것이 movieType이다. movieType은 현재 영화에 설정된 할인 정책의 종류를 결정하는 열거형 타입이느 MovieType의 인스턴스이다.
-
-movieType의 값이 AMOUNT_DISCOUT라면 discountAmount에 저장된 값을 사용하고 PERCENT_DISCOUNT라면 discountPercent에 저장된 값을 사용한다. NONE_DISCOUNT인 경우에는 할인 정책을 적용하지 말아야 하기 때문에 discountAmount와 discountPercent중 어떤 값도 사용하지 않는다.
+할인 정책은 영화별로 오직 하나만 지정할 수 있기 때문에 한 시점에 discountAmount와 discountPercent중 하나의 값만 사용될 수 있다. 할인 정책의 종류를 결정하는 것이 movieType이다.
 
 ```typescript
 const enum MovieType {
@@ -43,11 +41,9 @@ const enum MovieType {
 }
 ```
 
-이것은 말 그대로 데이터 중심의 접근 방법이다. Movie가 할인 금액을 계산하는데 필요한 데이터는 무엇인가? 금액 할인 정책의 경우에는 할인 금액이 필요하고 비율 할인 정책의 경우에는 할인 비율이 필요하다. 이 데이터들을 각각 discountAmount와 discountPercent라는 값으로 표현한다. 예매 가격을 계산하기 위해서는 Movie에 설정디ㅗㄴ 할인 정책이 무엇인지를 알아야 한다. 어떤 데이터가 필요한가? MovieType을 정의하고 이 타입의 인스턴스를 속성으로 포함시켜 이 값에 따라 어떤 데이터를 사용할지를 결정한다.
-
 데이터 중심의 설계에서는 객체가 포함해야 하는 데이터에 집중한다. 이 객체가 포함해야 하는 데이터는 무엇인가? 객체의 책임을 결정하기 전에 이런 질문에 휩싸여 있다면 데이터 중심의 설계에 매몰돼 있을 확률이 높다. 특히 Movie 클래스의 경우처럼 객체의 종류를 저장하는 인스턴스 변수movieType와 인스턴스 종류에 따라 배타적으로 사용될 인스턴스 변수 discountAmount, discountPercent를 하나의 클래스 안에 함께 포함시키는 방식은 데이터 중심의 설계 안에서 흔히 볼 수 있는 패턴이다.
 
-내부 데이터가 외부 다른 객체들을 오염시키는 것을 막기 위해 내부 데이터를 반환하는 접근자 accessor와 데이터를 변경하는 수정자 mutator를 추가한다.
+내부 데이터가 외부 다른 객체들을 오염시키는 것을 막기 위해 내부 데이터를 반환하는 접근자와 데이터를 변경하는 수정자를 추가한다.
 
 ```typescript
 public class Movie {
@@ -84,7 +80,7 @@ public class Movie {
 }
 ```
 
-Movie를 구현하는데 필요한 데이터를 결정했고 메서드를 이용해 내부 데이터를 캡슐화하는 데도 성공했다. 이제 할인 조건을 구현해 보자. 영화 예매 도메인에는 순번 조건과 기간 조건이라는 두가지 종류의 할인 조건이 존재한다. 순번 조건은 상영 순번을 이용해 할인 여부를 판단하고 기간 조건은 상영 시간을 이용해 할인 여부를 판단한다.
+Movie를 구현하는데 필요한 데이터를 결정했고 메서드를 이용해 내부 데이터를 캡슐화하는 데도 성공했다. 이제 할인 조건을 구현해 보자. 영화 예매 도메인에는 순번 조건과 기간 조건이라는 두가지 종류의 할인 조건이 존재한다.
 
 데이터 중심의 설계방법을 따르기 때문에 할인 조건을 설계하기 위해 해야 하는 질문은 다음과 같다. 할인 조건을 구현하는데 필요한 데이터는 무엇인가? 먼저 현재의 할인 조건의 종류를 저장할 데이터가 필요하다. 
 
@@ -95,20 +91,18 @@ const enum DiscountConditionType {
 }
 ```
 
-할인 조건을 구현하는 DiscountCondition은 할인 조건의 타입을 저장할 인스턴스 변수인 type을 포함한다. 또한 movieType의 경우와 마찬가지로 순번 조건에서만 사용되는 데이터인 상영 순번 sequence과 기간 조건에서만 사용되는 데이터인 요일 dayOfWeek, 시작 시간 startTime, 종료 시간 endTime을 함게 포함한다.
-
 ```typescript
 public class DiscountCondition {
-    private type: DiscountConditionType;
-    private sequence: number;
-    private dayOfWeek: DayOfWeek;
+    private type: DiscountConditionType;    // 할인 조건 타입
+    private sequence: number;        // 상영 순번
+    private dayOfWeek: DayOfWeek;    // 기간 조건
     private startTime: Date;
     private endTime: Date;
     
     public getType(): DiscountConditionType {
         return this.type;
     }
-    public setType(type: DiscountCondition): void {
+    public setType(type: DiscountConditionType): void {
         this.type = type;
     }
     public getDayOfWeek(): DayOfWeek {
@@ -222,11 +216,11 @@ public class Customer {
 
 
 
+아래와 같은 구조가 될 것이다.
+
 ![](./1.png)
 
-
-
-​    
+​      
 
 ### 영화를 예매하자
 
@@ -234,13 +228,11 @@ public class Customer {
 // ReservationAgency는 데이터 클래스들을 조합해서 영화 예매 절차를 구현하는 클래스이다.
 public class ReservationAgency {
     
-    // reserve
-    // 2. discountable 변수의 값을 체크, 적절한 할인 정책에 따라 예매 요금 계산
     public reserve(screening: Screening, customer: Customer, audienceCount: number) {
         movie: Movie = screening.getMovie();
         
         discountable: boolean = false;
-        // 1. DiscountCondition의 루프를 돌면서 할인 가능 여부를 확인
+        // DiscountCondition의 루프를 돌면서 할인 가능 여부를 확인
         movie.getDiscountConditions().find(condition => {
             // 할인 조건이 기간
             if(condition.getType() === DiscountConditionType.PERIOD) {
@@ -257,9 +249,10 @@ public class ReservationAgency {
         
         fee: Money;
         
-        // 하이ㅏㄴ 정책의 타입에 따라 할인 요금을 계산하는 로직을 분기
+        // discountable 변수의 값을 체크, 적절한 할인 정책에 따라 예매 요금 계산
         if(discountable) {
             discountAMount: Money = Money.ZERO;
+            // 할인 정책의 타입에 따라 할인 요금을 계산하는 로직을 분기
             switch(movie.getMovieType()) {
                 case AMOUNT_DISCOUNT:
                     discountAmount = movie.getDiscountAmount();
@@ -280,9 +273,7 @@ public class ReservationAgency {
 }
 ```
 
-지금까지 영화 예매 시스템을 데이터 중심으로 설계하는 방법을 살펴봤다. 이제 이 설계를 책임 중심의 설계방법과 비교해 보면서 두 방법의 장단점을 파악해 보자.
-
-​    
+​          
 
 ## 02. 설계 트레이드 오프
 
@@ -290,21 +281,17 @@ public class ReservationAgency {
 
 캡슐화란 변경 가능성이 높은 부분을 객체 내부로 숨기는 추상화 기법이다. 
 
+​      
+
 ### 응집도와 결합도
 
-응집도는 모듈에 포함된 내부 요소들이 연관돼 있는 정보를 나타낸다. 모듈 내의 요소들이 하나의 목적을 위해 긴밀하게 협력한다면 그 모듈은 높은 응집도를 가진다. 모듈 내의 요소들이 서로 다른 목적을 추구한다면 그 모듈은 낮은 응집도를 가진다. 객체지향의 관점에서 응집도는 객체 또는 클래스에 얼마나 관련 높은 책임들을 할당했는지를 나타낸다.
+**응집도**는 모듈에 포함된 내부 요소들이 연관돼 있는 정보를 나타낸다. 모듈 내의 요소들이 하나의 목적을 위해 긴밀하게 협력한다면 그 모듈은 높은 응집도를 가진다. 모듈 내의 요소들이 서로 다른 목적을 추구한다면 그 모듈은 낮은 응집도를 가진다. 객체지향의 관점에서 응집도는 객체 또는 클래스에 얼마나 관련 높은 책임들을 할당했는지를 나타낸다.
 
-결합도는 의존성의 정도를 나타내며 다른 모듈에 대해 얼마나 많은 지식을 갖고 있는지를 나타내는 척도이다. 어떤 모듈이 다른 모듈에 대해 너무 자세한 부분까지 알고 있다면 두 모듈은 높은 결합도를 가진다. 어떤 모듈이 다른 모듈에 대해 꼭 필요한 지식만 알고 있다면 두 모듈은 낮은 결합도를 가진다. 객체지향의 관점에서 결합도는 객체 또는 클래스가 협력에 필요한 적절한 수준의 관계만을 유지하고 있는지를 나타낸다.
+**결합도**는 의존성의 정도를 나타내며 다른 모듈에 대해 얼마나 많은 지식을 갖고 있는지를 나타내는 척도이다. 어떤 모듈이 다른 모듈에 대해 꼭 필요한 지식만 알고 있다면 두 모듈은 낮은 결합도를 가진다. 객체지향의 관점에서 결합도는 객체 또는 클래스가 협력에 필요한 적절한 수준의 관계만을 유지하고 있는지를 나타낸다.
 
 일반적으로 좋은 설계란 높은 응집도와 낮은 결합도를 가진 모듈로 구성된 설계를 의미한다. 이렇게 되면 설계를 변경하기 쉽게 만든다. 
 
-하나의 변경ㅇㄹ 수용하기 위해 모듈 전체가 함께 변경된다면 응집도가 높은 것이고 모듈의 일부만 변경된다면 응집도가 낮은 것이다. 또한 하나의 변경에 대해 하나의 모듈만 변경된다면 응집도가 높지만 다수의 모듈이 함께 변경되어야 한다면 응집도가 낮은 것이다. 
-
-결합도는 한 모듈이 변경되기 위해서 다른 모듈의 변경을 요구하는 정도로 측정이 가능하다. 하나의 모듈을 수정할 때 얼마나 많은 모듈을 함께 수정해야 하는지를 나타낸다. 인터페이스에 의존하도록 코드를 작성해야 낮은 결합도를 얻을 수 있다.
-
-캡슐화를 지키면 모듈 안의 응집도는 높아지고 모듈 사이의 결합도는 낮아진다. 
-
-​    
+​         
 
 ## 03. 데이터 중심의 영화 예매 시스템의 문제점
 
@@ -323,26 +310,26 @@ public class Movie {
 }
 ```
 
-위 코드에서 접근자와 수정자 메서드는 객체 내부의 상태에 대한 어떤 정보도 캡슐화하지 못한다. getFee, setFee 메서드는 Movie 내부에 Money 타입의 fee라는 이름의 인스턴스 변수가 존재한다는 사실을 퍼블릭 인터페이스에서 드러낸다. 이렇게 Movie가 캡슐화의 원칙을 어기게 된 근본적인 원인은 객체가 수행할 책임이 아니라 내부에 저장할 데이터에 초점을 맞췄기 때문이다. 객체에게 중요한 것은 책임이다. 그리고 구현을 캡슐화할 수 있는 ㅈ거절한 책임은 협력이라는 문맥을 고려할 때만 얻을 수 있다.
+위 코드에서 접근자와 수정자 메서드는 객체 내부의 상태에 대한 어떤 정보도 캡슐화하지 못한다. getFee, setFee 메서드는 Movie 내부에 Money 타입의 fee라는 이름의 인스턴스 변수가 존재한다는 사실을 퍼블릭 인터페이스에서 드러낸다. 이렇게 Movie가 캡슐화의 원칙을 어기게 된 근본적인 원인은 객체가 수행할 책임이 아니라 내부에 저장할 데이터에 초점을 맞췄기 때문이다.
 
-설계할 때 협력에 관해 고민하지 않으면 캡슐화를 위반하는 과도한 접근자와 수정자를 ㅏ가지게 되는 경향이 있다. 객체가 사용될 문맥을 추측할 수 밖에 없는 경우 개발자는 어던 상황에서도 해당 객체가 사용될 수 있게 최대한 많은 접근자 메서드를 추가하게 되는 것이다. 결과적으로 대부분의 내부 구현이 퍼블릭 인터페이스에 그대로 노출될 수 밖에 없는 것이다. 그 결과 캡슐화의 원칙을 위반하는 변경에 취약한 설계를 얻게 된다.
-    
+설계할 때 협력에 관해 고민하지 않으면 캡슐화를 위반하는 과도한 접근자와 수정자를 가지게 되는 경향이 있다. 객체가 사용될 문맥을 추측할 수 밖에 없는 경우 개발자는 어떤 상황에서도 해당 객체가 사용될 수 있게 최대한 많은 접근자 메서드를 추가하게 되는 것이다. 결과적으로 대부분의 내부 구현이 퍼블릭 인터페이스에 그대로 노출될 수 밖에 없는 것이다. 그 결과 캡슐화의 원칙을 위반하는 변경에 취약한 설계를 얻게 된다.
+      
 
 ### 높은 결합도
 
 객체 내부의 구현이 객체의 인터페이스에 드러난다는 것은 클라이언트가 구현에 강하게 결합된다는 것을 의미한다. 그리고 더 나쁜 소식은 단지 객체의 내부 구현을 변경했음에도 이 인터페이스에 의존하는 모든 클라이언트들도 함께 변경해야 한다는 것이다.
 
-데이터 중심 설계는 객체의 캡슈로하를 약화시키기 때문에 클라이언트가 객체의 구현에 강하게 결합된다.
+데이터 중심 설계는 객체의 캡슐화를 약화시키기 때문에 클라이언트가 객체의 구현에 강하게 결합된다.
 
-결합도 측면에서 데이터 중심 설계가 가지는 또 다른 단점은 여러 데이터 객체들을 사용하는 제어 로직이 특정 객체 안에 집중되기 때문에 하나의 제어 객체가 다수의 데이터객체에 강하게 결합된다는 것이다. 이 결합도로 인해 데이터 객체를 변겨아더라도 제어 객체를 함께 변경할 수 밖에 없다.
+결합도 측면에서 데이터 중심 설계가 가지는 또 다른 단점은 여러 데이터 객체들을 사용하는 제어 로직이 특정 객체 안에 집중되기 때문에 하나의 제어 객체가 다수의 데이터객체에 강하게 결합된다는 것이다. 이 결합도로 인해 데이터 객체를 변경하면 제어 객체를 함께 변경할 수 밖에 없다.
 
 ![](./2.png)
 
-영화 예매 시스템을 보면 대부분의 제어 로직을 가지고 있는 제어 객체인 ReservationAgency가 모든 데이터 객체에 의존한다는 것을 알 수 잇다. DiscountCondition의 데이터가 변경되면 DiscountCondition뿐만 아니라 ReservationAgency도 함께 수정해야 한다. Screening의 데이터가 변경되면 Screening뿐만 아니라 ReservatiopnAgency도 함게 수정해야 한다. ReservationAgency는 모든 의존성이 모이는 결합도의 집결지이다. 시스템 안의 어떤 변경도 ReservationAgency의 변경을 유발한다.
+영화 예매 시스템을 보면 대부분의 제어 로직을 가지고 있는 **제어 객체인 ReservationAgency가 모든 데이터 객체에 의존**한다는 것을 알 수 잇다. DiscountCondition의 데이터가 변경되면 DiscountCondition뿐만 아니라 ReservationAgency도 함께 수정해야 한다. Screening의 데이터가 변경되면 Screening뿐만 아니라 ReservatiopnAgency도 함게 수정해야 한다. ReservationAgency는 모든 의존성이 모이는 결합도의 집결지이다. 시스템 안의 어떤 변경도 ReservationAgency의 변경을 유발한다.
 
 데이터 중심의 설계는 전체 시스템을 하나의 거대한 의존성 덩어리로 만들어 버리기 때문에 어떤 변경이라도 일단 발생하고 나면 시스템 전체가 요동칠 수 밖에 없다.
 
-​    
+​     
 
 ### 낮은 응집도
 
@@ -350,7 +337,7 @@ public class Movie {
 
 ReservationAgency를 예로 들어 변경과 응집도 사이의 관계를 살펴보자. 아래 같은 경우에 ReservationAgency 코드가 수정해야 할 것이다.
 
-- 할인 정책이 추가도리 경우
+- 할인 정책이 추가될 경우
 - 할인 정책별로 할인 요금을 계산하는 방법이 변경될 경우
 - 할인 조건이 추가되는 경우
 - 할인 조건별로 할인 여부를 판단하는 방법이 변경될 경우
@@ -360,8 +347,9 @@ ReservationAgency를 예로 들어 변경과 응집도 사이의 관계를 살�
 
 낮은 응집도는 2가지 측면에서 설계에 문제를 일으킨다.
 
-- 변경의 이유가 서로 다른 코드들을 하나의 모듈안에 뭉쳐놓았기 때문에 변경과 아무 사관이 없는 코드들이 영향을 받게 된다.
-- 하나의 요구사항 변경을 반영하기 위해 동시에 여러 모듈을 수정해야 한다. 응집도가 낮을 경우 다른 모듈에 위치해야 할 책임의 일부가 엉뚱한 곳에 위치하게 되기 때문이다.
+1. 변경의 이유가 서로 다른 코드들을 하나의 모듈안에 뭉쳐놓았기 때문에 변경과 상관이 없는 코드들이 영향을 받는다.
+
+2. 하나의 요구사항 변경을 반영하기 위해 동시에 여러 모듈을 수정해야 한다. 
 
 ​    
 
@@ -369,9 +357,7 @@ ReservationAgency를 예로 들어 변경과 응집도 사이의 관계를 살�
 
 ### 캡슐화를 지켜라
 
-낮은 응집도와 높은 결합도라는 문제의 근본적인 원인은 캡슐화의 원칙을 위반했기 때문이다. 객체는 스스로의 상태를 책임져야 하며 외부에서는 인터페이스에 정의된 메서드를 통해서만 상태에 접근할 수 있어야 한다.
-
-여기서 메서드는 객체가 책임져야 하는 무언가를 수행하는 메서드이다. 속석의 가시성을 private으로 설정했다고 해도 접근자와 수정자를 통해 속성을 외부로 제공하고 있다면 캡슐화를 위반하는 것이다.
+낮은 응집도와 높은 결합도라는 문제의 근본적인 원인은 캡슐화의 원칙을 위반했기 때문이다. 객체는 스스로의 상태를 책임져야 하며 외부에서는 인터페이스에 정의된 메서드를 통해서만 상태에 접근할 수 있어야 한다. 여기서 속성의 가시성을 private으로 설정했다고 해도 접근자와 수정자를 통해 속성을 외부로 제공하고 있다면 캡슐화를 위반하는 것이다.
 
 ```typescript
 class Rectangle {
@@ -426,9 +412,9 @@ class AnyClass {
 }
 ```
 
-이 코드의 첫번째 문제는 '코드 중복'이 발생할 확률이 높다는 것이다. 다른 고셍서도 사각형의 너비와 높이를 증가시키는 코드가 필요하다면 getRight, getBottom메서드를 호출해서 right, bottom을 가져온 후 수정자 메서드를 이용해 값을 설정하는 유사한 코드가 존재할 것이다. 코드 중복은 악의 근원이다.
+이 코드의 **첫번째 문제는 '코드 중복'이 발생할 확률이 높다**는 것이다. 다른 곳에서도 사각형의 너비와 높이를 증가시키는 코드가 필요하다면 getRight, getBottom메서드를 호출해서 right, bottom을 가져온 후 수정자 메서드를 이용해 값을 설정하는 유사한 코드가 존재할 것이다. 
 
-두번째 문제점은 '변경에 취약'하다는 점이다. Rectangle이 right, bottom 대신 length, height를 이용하는 것으로 수정한다면 접근자, 수정자를 각각 getLength, getHeight, setLength, setHeight로 변경해야 하고 기존에 메서드를 사용하던 모든 코드에 영향을 미친다.
+**두번째 문제점은 '변경에 취약'하다**는 점이다. Rectangle이 right, bottom 대신 length, height를 이용하는 것으로 수정한다면 접근자, 수정자, 기존 메서드를 사용하던 모든 코드에 영향을 미친다.
 
 이것을 해결하는 방법은 캡슐화를 강화시키는 것이다.
 
@@ -468,7 +454,7 @@ public class DiscountCondition {
     private startTime: Date;
     private endTime: Date;
     
-    public getType(): DiscountConditionType{
+    public getType(): DiscountConditionType {
         //...
     }
     public isDiscountable(dayOfWeek?: DayOfWeek, time?:Date, sequence?: int): boolean {
@@ -477,9 +463,9 @@ public class DiscountCondition {
 }
 ```
 
-`isDiscountable(dayOfWeek?: DayOfWeek, time?:Date, sequence?: int)` 를 보면 DiscountCondition 속성으로 포함되어 있는 DayOfWeek 타입의 요일 정보와 LocalTime 타이브이 시간 정보가 인스턴스 변수로 포함되어 있다는 사실을 인터페이스를 통해 외부에 노출한다. 비록 setType 메서드는 없지만 getType 메서드를 통해 내부에 DiscountConditionType을 포함하고 있다는 정보 역시 노출하고 있다.
+`isDiscountable(dayOfWeek?: DayOfWeek, time?:Date, sequence?: int)` 를 보면 DiscountCondition 속성으로 포함되어 있는 DayOfWeek 타입의 요일 정보와 LocalTime 타입의 시간 정보가 인스턴스 변수로 포함되어 있다는 사실을 인터페이스를 통해 외부에 노출한다. 비록 setType 메서드는 없지만 getType 메서드를 통해 내부에 DiscountConditionType을 포함하고 있다는 정보 역시 노출하고 있다.
 
-만약 DiscountCondition의 속성을 변경해야 한다면 isDiscountable 메서드의 파라미터를 수정하고 이 메서드를 사용하는 모든 클라이언트들도 함께 수정해야 한다. 내부 구현의 변겨이 외부로 퍼져나가는 파급효과는 캡슈로하가 부족하다는 증거이다.
+만약 DiscountCondition의 속성을 변경해야 한다면 isDiscountable 메서드의 파라미터를 수정하고 이 메서드를 사용하는 모든 클라이언트들도 함께 수정해야 한다. 내부 구현의 변경이 외부로 퍼져나가는 파급효과는 캡슐화가 부족하다는 증거이다.
 
 ```typescript
 public class Movie {
@@ -520,9 +506,8 @@ public class Movie
     public isDiscountable(whenScreened: Date, sequence: number): boolean {
         return discountConditions.find(condition => {
             if(condition.getType() === DiscountConditionType.PERIOD) {
-                if(condition.isDiscountable(whenScreened.getDayOfWeek(), whenScreened.toLocalTime())) {
+                if(condition.isDiscountable(whenScreened.getDayOfWeek(), whenScreened.toLocalTime()))
                     return true;
-                }
             } else {
                 if(condition.isDiscountable(sequence)) return true;
             }
@@ -532,7 +517,7 @@ public class Movie
 }
 ```
 
-Movie의 isDiscountable 메서드는 DiscountCondition의 목록을 순회하면서 할인 조건의 종류에 따라 DiscountCondition에 구현된 두개의 isDiscountable 메서드 중에서 적절한 것을 호출한다. 중요한 것은 Movie와 DiscountCondition 사이의 결합도이므로 DiscountCondition에 대한 ㅇ떤 변경이 Movie에게 까지 영향을 미치는지 살펴봐야 한다.
+Movie의 isDiscountable 메서드는 DiscountCondition의 목록을 순회하면서 할인 조건의 종류에 따라 DiscountCondition에 구현된 두개의 isDiscountable 메서드 중에서 적절한 것을 호출한다. 중요한 것은 Movie와 DiscountCondition 사이의 결합도이므로 DiscountCondition에 대한 어떤 변경이 Movie에게 까지 영향을 미치는지 살펴봐야 한다.
 
 - DiscountCondition의 기간 할인 조건의 명칭이 PERIOD에서 다른 값으로 변경된다면 Movie를 수정해야 한다.
 - DiscountCondition의 종류가 추가되거나 삭제된다면 Movie 안의 if~ 구문을 수정해야 한다.
@@ -540,7 +525,7 @@ Movie의 isDiscountable 메서드는 DiscountCondition의 목록을 순회하면
 
 DiscountCondition을 변경을 하게 되면 Movie뿐만 아니라 관련 있는 모든 객체들이 문제가 생긴다.
 
-​     
+​      
 
 ### 낮은 응집도
 
@@ -567,7 +552,7 @@ public clas Screening {
 
 DiscountCondition과 Movie의 내부 구현이 인터페이스에 그대로 노출되고 있고 Screening은 노출된 구현에 직접적으로 의존하고 있다. 이것은 원래 DiscountCondition이나 Movie에 위치해야 하는 로직이 Screening으로 새어나왔기 때문이다.
 
-###     
+###           
 
 ## 06. 데이터 중심 설계의 문제점
 
@@ -575,7 +560,7 @@ DiscountCondition과 Movie의 내부 구현이 인터페이스에 그대로 노�
 
 데이터는 구현의 일부이다. 데이터 주도 설계는 설계를 시작하는 처음부터 데이터에 관해 결정하도록 강요하기 때문에 너무 이른 시기에 내부 구현에 초점을 맞추게 된다. 데이터 중심 설계 방식은 데이터 와 기능을 분리하는 절차적 프로그래밍 방식을 따르게 되면서 객체지향 패러다임에 지키지 않게 된다. 접근자와 수정자는 public 속성과 차이가 없기 때문에 객체의 캡슐화가 무너질 수 밖에 없다. 또한 데이터를 먼저 결정하고 데이터 처리 오퍼레이션을 나중에 결정하면 데이터에 관한 지식이 객체의 인터페이스에 고스란히 느러나게 되어 캡슐화에 실패한다.
 
-​     
+​      
 
 ### 데이터 중심 설계는 객체를 고립시킨 채 오퍼레이션을 정의하도록 만든다.
 

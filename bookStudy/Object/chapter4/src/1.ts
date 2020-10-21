@@ -57,6 +57,23 @@ class Movie {
     private discountAmount: Money;
     private discountPercent: number;
 
+    constructor(
+        title: string,
+        runningTime: number,
+        fee: Money,
+        movieType: MovieType,
+        discountAmount: Money,
+        discountPercent: number
+    ) {
+        this.discountConditions = [];
+        this.title = title;
+        this.fee = fee;
+        this.runningTime = runningTime;
+        this.movieType = movieType;
+        this.discountAmount = discountAmount;
+        this.discountPercent = discountPercent;
+    }
+
     public getMovieType(): MovieType {
         return this.movieType;
     }
@@ -89,21 +106,65 @@ class Movie {
         return this.discountPercent;
     }
     public setDiscountPercent(discountPercent: number): void {
-        this.discountAmount = discountPercent;
+        this.discountPercent = discountPercent;
     }
 }
 
-const enum DiscountConditionsType {
+const enum DiscountConditionType {
     SEQUENCE,
     PERIOD,
 }
 
 class DiscountCondition {
-    private type: DiscountConditionsType;
+    private type: DiscountConditionType;
     private sequence: number;
     private dayOfWeek: DayOfWeek;
     private startTime: Date;
     private endTime: Date;
+
+    constructor(
+        type: DiscountConditionType,
+        sequence: number,
+        dayOfWeek: DayOfWeek,
+        startTime: Date,
+        endTime: Date
+    ) {
+        this.type = type;
+        this.sequence = sequence;
+        this.dayOfWeek = dayOfWeek;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    public getType(): DiscountConditionType {
+        return this.type;
+    }
+    public setType(type: DiscountConditionType): void {
+        this.type = type;
+    }
+    public getDayOfWeek(): DayOfWeek {
+        return this.dayOfWeek;
+    }
+    public setDayOfWeek(dayOfWeek: DayOfWeek): void {
+        this.dayOfWeek = dayOfWeek;
+    }
+    public getStartTime(): Date {
+        return this.startTime;
+    }
+    public setStartTime(startTime: Date): void {
+        this.startTime = startTime;
+    }
+    public getEndTime(): Date {
+        return this.endTime;
+    }
+    public setEndTime(endTime: Date): void {
+        this.endTime = endTime;
+    }
+    public getSequence(): number {
+        return this.sequence;
+    }
+    public setSequence(sequence: number): void {
+        this.sequence = sequence;
+    }
 }
 
 class Screening {
@@ -111,6 +172,11 @@ class Screening {
     private sequence: number;
     private whenScreened: Date;
 
+    constructor(movie: Movie, sequence: number, whenScreened: Date) {
+        this.movie = movie;
+        this.sequence = sequence;
+        this.whenScreened = whenScreened;
+    }
     public getMovie(): Movie {
         return this.movie;
     }
@@ -184,4 +250,67 @@ class Customer {
     }
 }
 
-class ReservationAgency {}
+class ReservationAgency {
+    public reserve(
+        screening: Screening,
+        customer: Customer,
+        audienceCount: number
+    ) {
+        let movie: Movie = screening.getMovie();
+
+        let discountable: boolean = false;
+        // DiscountCondition의 루프를 돌면서 할인 가능 여부를 확인
+        for (const condition of movie.getDiscountConditions()) {
+            if (
+                condition.getType() === DiscountConditionType.PERIOD
+            ) {
+                discountable =
+                    screening.getWhenScreened().getDay() ===
+                        condition.getDayOfWeek() &&
+                    condition.getStartTime() <=
+                        screening.getWhenScreened() &&
+                    condition.getEndTime() >=
+                        screening.getWhenScreened();
+            } else {
+                // 할인 조건이 순번 조건
+                discountable =
+                    condition.getSequence() ===
+                    screening.getSequence();
+            }
+            if (discountable) break;
+        }
+
+        let fee: Money;
+
+        // discountable 변수의 값을 체크, 적절한 할인 정책에 따라 예매 요금 계산
+        if (discountable) {
+            let discountAmount: Money;
+            // 할인 정책의 타입에 따라 할인 요금을 계산하는 로직을 분기
+            switch (movie.getMovieType()) {
+                case MovieType.AMOUNT_DISCOUNT:
+                    discountAmount = movie.getDiscountAmount();
+                    break;
+                case MovieType.PERCENT_DISCOUNT:
+                    discountAmount = movie
+                        .getFee()
+                        .times(movie.getDiscountPercent());
+                    break;
+                case MovieType.NONE_DISCOUNT:
+                    discountAmount = Money.ZERO;
+                    break;
+            }
+            fee = movie
+                .getFee()
+                .minus(discountAmount)
+                .times(audienceCount);
+        } else {
+            fee = movie.getFee();
+        }
+        return new Reservation(
+            customer,
+            screening,
+            fee,
+            audienceCount
+        );
+    }
+}
