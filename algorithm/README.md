@@ -29,6 +29,7 @@
 -   히스토그램에서 가장 큰 직사각형 (6549) [[문제풀이]](./problems/src/baekjoon/p6549/Solution.md)
 -   이친수 (2193) [[문제풀이]](./problems/src/baekjoon/p2193/Solution.md)
 -   내리막 길 (1520) [[문제풀이]](./problems/src/baekjoon/p1520/Solution.md)
+-   가장 큰 정사각형 (1915) [[문제풀이]](./problems/src/baekjoon/p1915/Solution.md)
 
 ​    
 
