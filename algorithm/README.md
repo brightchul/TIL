@@ -28,6 +28,7 @@
 -   가장 긴 증가하는 부분 수열 (11053) [[문제풀이]](./problems/src/baekjoon/p11053/Solution.md)
 -   히스토그램에서 가장 큰 직사각형 (6549) [[문제풀이]](./problems/src/baekjoon/p6549/Solution.md)
 -   이친수 (2193) [[문제풀이]](./problems/src/baekjoon/p2193/Solution.md)
+-   내리막 길 (1520) [[문제풀이]](./problems/src/baekjoon/p1520/Solution.md)
 
 ​    
 
