@@ -228,49 +228,67 @@ public class Customer {
 // ReservationAgency는 데이터 클래스들을 조합해서 영화 예매 절차를 구현하는 클래스이다.
 public class ReservationAgency {
     
-    public reserve(screening: Screening, customer: Customer, audienceCount: number) {
-        movie: Movie = screening.getMovie();
-        
-        discountable: boolean = false;
+    public reserve(
+        screening: Screening,
+        customer: Customer,
+        audienceCount: number
+    ) {
+        let movie: Movie = screening.getMovie();
+
+        let discountable: boolean = false;
         // DiscountCondition의 루프를 돌면서 할인 가능 여부를 확인
-        movie.getDiscountConditions().find(condition => {
-            // 할인 조건이 기간
-            if(condition.getType() === DiscountConditionType.PERIOD) {
-                discountasble = 
-                    screening.getWhenScreened().getDayOfWeek().equals(condition.getDayOfWeek()) 
-                && condition.getStartTime().compareTo(screening.getWhenScreened().toLocalTime()) <= 0 
-                && condition.getEndTime().compareTo(screening.getWhenScreened().toLocalTime()) >= 0;
+        for (const condition of movie.getDiscountConditions()) {
+            if (
+                condition.getType() === DiscountConditionType.PERIOD
+            ) {
+                discountable =
+                    screening.getWhenScreened().getDay() ===
+                        condition.getDayOfWeek() &&
+                    condition.getStartTime() <=
+                        screening.getWhenScreened() &&
+                    condition.getEndTime() >=
+                        screening.getWhenScreened();
             } else {
                 // 할인 조건이 순번 조건
-                discountable = condition.getSequence() === screening.getSequence();
+                discountable =
+                    condition.getSequence() ===
+                    screening.getSequence();
             }
-            return discountable;
-        });
-        
-        fee: Money;
-        
+            if (discountable) break;
+        }
+
+        let fee: Money;
+
         // discountable 변수의 값을 체크, 적절한 할인 정책에 따라 예매 요금 계산
-        if(discountable) {
-            discountAMount: Money = Money.ZERO;
+        if (discountable) {
+            let discountAmount: Money;
             // 할인 정책의 타입에 따라 할인 요금을 계산하는 로직을 분기
-            switch(movie.getMovieType()) {
-                case AMOUNT_DISCOUNT:
+            switch (movie.getMovieType()) {
+                case MovieType.AMOUNT_DISCOUNT:
                     discountAmount = movie.getDiscountAmount();
                     break;
-                case PERCENT_DISCOUNT:
-                    discountAMount = movie.getFee().times(movie.getDiscountPercent());
+                case MovieType.PERCENT_DISCOUNT:
+                    discountAmount = movie
+                        .getFee()
+                        .times(movie.getDiscountPercent());
                     break;
-                case NONE_DISCOUNT:
-                    discountAMount = Money.ZERO;
+                case MovieType.NONE_DISCOUNT:
+                    discountAmount = Money.ZERO;
                     break;
             }
-            fee = movie.getFee().minus(discountAmount).times(audienceCount);
+            fee = movie
+                .getFee()
+                .minus(discountAmount)
+                .times(audienceCount);
         } else {
             fee = movie.getFee();
         }
-        return new Reservation(customer, screening, fee, audienceCount);
-    }
-}
+        return new Reservation(
+            customer,
+            screening,
+            fee,
+            audienceCount
+        );
 ```
 
 ​          
