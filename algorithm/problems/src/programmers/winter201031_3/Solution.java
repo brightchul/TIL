@@ -33,8 +33,9 @@ public class Solution {
     if (row < 0 || row >= rowLen) return;
     if (col < 0 || col >= colLen) return;
     if (arr[row][col] == -1) return;
-    if (arr[row][col] == value) arr[row][col] = -1;
-    else return;
+    if(arr[row][col] != value) return;
+
+    arr[row][col] = -1;
 
     recur(row - 1, col, arr, value);
     recur(row, col - 1, arr, value);
