@@ -31,6 +31,7 @@
 -   내리막 길 (1520) [[문제풀이]](./problems/src/baekjoon/p1520/Solution.md)
 -   가장 큰 정사각형 (1915) [[문제풀이]](./problems/src/baekjoon/p1915/Solution.md)
 -   구간 곱 구하기 (11505) [[문제풀이]](./problems/src/baekjoon/p11505/Solution.md)
+-   최솟값 (10868) [[문제풀이]](./problems/src/baekjoon/p10868/Solution.md)
 
 ​    
 
