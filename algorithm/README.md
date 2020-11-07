@@ -33,6 +33,7 @@
 -   구간 곱 구하기 (11505) [[문제풀이]](./problems/src/baekjoon/p11505/Solution.md)
 -   최솟값 (10868) [[문제풀이]](./problems/src/baekjoon/p10868/Solution.md)
 -   최대공약수 (1850) [[문제풀이]](./problems/src/baekjoon/p1850/Solution.md)
+-   구간 합 구하기 (2042) [[문제풀이]](./problems/src/baekjoon/p2042/Solution.md)
 
 ​    
 
