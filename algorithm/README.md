@@ -36,6 +36,9 @@
 -   구간 합 구하기 (2042) [[문제풀이]](./problems/src/baekjoon/p2042/Solution.md)
 -   골드바흐의 추측  (6588) [[문제풀이]](./problems/src/baekjoon/p6588/Solution.md)
 -   동전 1 (2239) [[문제풀이]](./problems/src/baekjoon/p2239/Solution.md)
+-   가장 긴 감소하는 부분 수열  (11722) [[문제풀이]](./problems/src/baekjoon/p11722/Solution.md)
+-   동전 2 (2294) [[문제풀이]](./problems/src/baekjoon/p2294/Solution.md) 
+-   자두나무 (2240) [[문제풀이]](./problems/src/baekjoon/p2240/Solution.md)
 
 ​        
 
