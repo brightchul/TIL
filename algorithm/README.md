@@ -39,6 +39,7 @@
 -   가장 긴 감소하는 부분 수열  (11722) [[문제풀이]](./problems/src/baekjoon/p11722/Solution.md)
 -   동전 2 (2294) [[문제풀이]](./problems/src/baekjoon/p2294/Solution.md) 
 -   자두나무 (2240) [[문제풀이]](./problems/src/baekjoon/p2240/Solution.md)
+-   카드 구매하기 (11052) [[코드]](./problems/src/baekjoon/p11052/Solution.java)
 
 ​        
 
