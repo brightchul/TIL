@@ -1,3 +1,12 @@
 export function getMinimum(...args: number[]): number {
   return args.reduce((p, a) => Math.min(p, a));
 }
+
+type ArrOrNum = Array<ArrOrNum> | number;
+
+export function makeArray(initValue: number, ...args: number[]): ArrOrNum {
+  if (args.length === 0) return initValue;
+  return Array(args[0])
+    .fill(0)
+    .map((_) => makeArray(initValue, ...args.slice(1)));
+}
