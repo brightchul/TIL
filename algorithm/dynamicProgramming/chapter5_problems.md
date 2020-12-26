@@ -232,11 +232,108 @@ function numOfPathsDP(m: number, n: number): number {
 
 ## 5.3 문자열 인터리빙 확인 문제
 
+두 문자열 A와 B가 있다. 이 문자열 내의 모든 글자의 상대적인 순서가 유지된 채 섞여서 새로운 문자열 C가 만들어지면 이 때 문자열 C를 문자열 A와 문자열 B의 인터리빙(interleaving)이라고 한다.
+
+```
+A = 'xyz'
+B = 'abcd'
+C = 'xabyczd'
+
+C = interleaving(A, B)
+```
+
+​        
+
 ### 재귀 호출을 사용하는 풀이와 설명
 
+먼저 세 문자열의 길이를 확인하면, 확인해야 하는 경우의 수를 ㄹ줄일 수 있다. C의 길이가 A,B의 길이의 합과 같지 않다면 인터리빙이 아니다. 
 
+```
+A = 'xyz' , B = 'abcd' , C = 'xabyczd'
+```
+
+C의 첫 글자 x는 B의 첫 번째 글자가 아니므로 A에서 가져왔다. 그러면 그 이후에는 아래의 경우를 파악하면 된다.
+
+```
+A = 'yz' , B = 'abcd' , C = 'abyczd'
+```
+
+계속 동일한 유형이므로 재귀 호출을 사용해서 풀수 있다. 하지만 A, B에 같은 문자가 있다면 어떻게 해야할까?
+
+```
+A = 'bcc' , B = 'bbca' , C = 'bbcbcac'
+```
+
+이러한 경우에는 C의 첫 글자 b는 A, B 어디서 왔는지 바로 알수가 없다. 이 때는 다음처럼 양쪽 모두 확인해봐야 한다.
+
+```
+A = 'bcc' , B = 'bbca' , C = 'bbcbcac'
+
+// C의 첫 글자가 A에서 삽입된 경우
+A = 'cc' , B = 'bbca' , C = 'bbcbcac'
+
+// C의 첫 글자가 B에서 삽입된 경우
+A = 'bcc' , B = 'bca' , C = 'bbcbcac'
+```
+
+각각의 경우에서도 같은유형의 하위 문제이다. 즉 최적의 하위 구조를 가지고 있는 문제인 것이다. 아래를 보면 중복되는 하위 문제 계산 횟수가 늘어난다. 따라서 이 문제는 DP를 이용해서 푸는게 좋다.
+
+```
+A = 'bcc' , B = 'bbca' , C = 'bbcbcac'
+
+// C의 첫 글자가 A에서 삽입된 경우
+A = 'cc' , B = 'bbca' , C = 'bcbcac' 
+
+  // C의 첫 글자는 B에서만 삽입 가능 
+  A = 'cc' , B = 'bca' , C = 'cbcac'
+
+// C의 첫 글자가 B에서 삽입된 경우
+A = 'bcc' , B = 'bca' , C = 'bcbcac'
+
+  // C의 첫 글자가 A에서 삽입된 경우    (중복)
+  A = 'cc' , B = 'bca' , C = 'cbcac'
+	
+  // C의 첫 글자가 B에서 삽입된 경우
+  A = 'bcc' , B = 'ca' , C = 'cbcac'
+```
+
+​     
+
+아래 코드는 시간 복잡도가 O(2^n)이다. 
+
+```typescript
+function isInterleavingRecursive(strA: string, strB: string, strC: string) {
+  // 만약 모든 문자열이 빈 문자열인 경우
+  if (!strA && !strB && !strC) return true;
+  // strA, strB 문자열의 길이의 합이 C 문자열의 길이와 다를때)
+  if (strA.length + strB.length !== strC.length) return false;
+
+  function calculate(idxA: number, idxB: number, idxC: number) {
+    // 만약 모든 문자열이 빈 문자열인 경우
+    if (!strA[idxA] && !strB[idxB] && !strC[idxC]) return true;
+
+    let caseA = false;
+    let caseB = false;
+
+    // strA첫글자와 strC의 첫 글자가 같은 경우
+    if (strA[idxA] === strC[idxC]) caseA = calculate(idxA + 1, idxB, idxC + 1);
+
+    // strA첫글자와 strC의 첫 글자가 같은 경우
+    if (strB[idxB] === strC[idxC]) caseB = calculate(idxA, idxB + 1, idxC + 1);
+
+    // 둘 중 하나라도 참이면 인터리빙
+    return caseA || caseB;
+  }
+}
+```
+
+​       
 
 ### 다이나믹 프로그래밍을 사용하는 풀이와 설명
+
+이번에는 상향식으로 풀어본다. 각 단계마다 C의 부분 문자열이 A의 부분 문자열과 B의 부분 문자열의 인터리빙인지를 확인한다. 문자열 A의 길이를 m, 문자열 B의 길이를 n이라고 할때 i<=m인 i에 대해서 문자열 A의 첫 i글자로 이루어진 문자열 A'와 j<=n인 j에 대해서 문자열 B의 첫 j글자로 이루어진 문자열 B' 의 인터리빙으로 C의 첫(i + j) 글자로 이루엊니 문자열 C'를 만들 수 있는지를 검사한다. 
+
+i와 j 두개의 인수가 있으므로 하위 문제의 결과를 저장하는데는 2차원 자료구조가 필요하다. (A의 각글자는 행, B의 각 글자는 열에 대응). 이 행렬 역시 인덱스이 시작 값은 0이다.
 
 
 
