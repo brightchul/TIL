@@ -5,6 +5,7 @@ import {
   numOfPathsDP,
   numOfPathsDP2,
 } from "./rectangleTotalPath";
+import { isInterleavingRecursive, isInterleavingDP } from "./interleaving";
 
 consoleLog("sunday", "saturday", editDistanceRecursive("sunday", "saturday"));
 consoleLog("sunday", "saturday", editDistanceDP("sunday", "saturday"));
@@ -12,3 +13,6 @@ consoleLog("sunday", "saturday", editDistanceDP("sunday", "saturday"));
 consoleLog("numOfPathsRecursive", numOfPathsRecursive(3, 4));
 consoleLog("numOfPathsDP", numOfPathsDP(3, 4));
 consoleLog("numOfPathsDP2", numOfPathsDP2(3, 4));
+
+consoleLog(isInterleavingRecursive("bcc", "bbca", "bbcbcac"));
+consoleLog(isInterleavingDP("bcc", "bbca", "bbcbcac"));

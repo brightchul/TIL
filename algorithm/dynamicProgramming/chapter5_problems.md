@@ -70,16 +70,13 @@ export function editDistance(str1: string, str2: string) {
 function getMinimum(...args: number[]): number {
   return args.reduce((p, a) => Math.min(p, a));
 }
-
 ```
-
-
 
 ​             
 
 ### 다이나믹 프로그래밍을 사용하는 풀이와 설명
 
-다이나믹 프로그래밍 접근 방법은 두 단어의 교정 비용을 구하는 과정에 필요한 모든 가능한 조합에 대해서 교정 비용을 상향식으로 구하는 것이다. str1, str2 두 단어의 길이가 각각 n과 m이라면 빈 문자열의 경우를 포함한 모든 가능한 조합은 (m+1) x (n + 1) 크기의 행렬을 사용해야 한다.
+다이나믹 프로그래밍 접근 방법은 두 단어의 교정 비용을 구하는 과정에 필요한 모든 가능한 조합에 대해서 교정 비용을 상향식으로 구하는 것이다. str1, str2 두 단어의 길이가 각각 n과 m이라면 빈 문자열의 경우를 포함한 모든 가능한 조합은` (m+1) x (n + 1)` 크기의 행렬을 사용해야 한다.
 
 |      |      |  S   |  A   |  T   |  U   |  R   |  D   |  A   |  Y   |
 | :--: | ---- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -189,9 +186,8 @@ M x N 개의 방으로 구성된 직사각형이 있을 때 좌상단 방에서 
 
 ```typescript
 // 이 코드의 시간 복잡도는 지수 시간 O(2^n)이다. 
+// 이 코드에서는 M x N를 입력받는 경우를 가정하고 만들었다.
 
-// 예제 코드에서 0~m, 0~n까지의 코드로 되어 있는데 이렇게 될 경우 +1만큼 row, col이 추가된다.
-// 따라서 처음시작을 m-1, n-1씩을 줄여서 하거나 종료조건에서 0이 아닌 1로 해야 한다.
 function numOfPathsRecursive(m: number, n: number): number {
 
   // 종료 조건
@@ -335,5 +331,128 @@ function isInterleavingRecursive(strA: string, strB: string, strC: string) {
 
 i와 j 두개의 인수가 있으므로 하위 문제의 결과를 저장하는데는 2차원 자료구조가 필요하다. (A의 각글자는 행, B의 각 글자는 열에 대응). 이 행렬 역시 인덱스이 시작 값은 0이다.
 
+예를 들어 ` A = 'bcc' , B = 'bbca' , C = 'bbcbcac' ` 로 보자.
 
+|      |        |  b   |  b   |  c   |   a    |
+| :--: | :----: | :--: | :--: | :--: | :----: |
+|      | (0, 0) |      |      |      |        |
+|  b   |        |      |  ☆   |      |        |
+|  c   |        |      |      |      |   ★    |
+|  c   |        |      |      |      | (3, 4) |
+
+이 행렬의 셀 (i, j)의 값은   C'가 A'와 B'의 인터리빙이면 참이 된다. ☆로 표시한 셀 (1, 2)는 b, bb를 인터리빙하여 bbc를 만들 수 없으므로 False이다. 반대로  ★로 표시한 셀 (2, 4)는 bc, bbca를 인터리빙하여 bbcbca를 만들 수 잇으므로 True로 채운다.
+
+첫 번째 셀 (0, 0)은 T이다. 빈 무자열은 두 개를 인터리빙해도 빈 문자열이기대문이다.
+
+첫 번째 행은 문자열A가 빈 문자열인 경우이다. 이 때는 B의 부분 문자열이 C의 부분 문자열과 같으면 참이다. 로직은 다음과 같다.
+
+```
+if (B[i-1] != C[i-1])
+	ilMatrix[0][i] = false
+else
+	ilMatrix[0][i] = ilMatrix[0][i-1]
+	
+if (A[j-1] != C[j-1])
+	ilMatrix[j][0] = false
+else
+	ilMatrix[j][0] = ilMatrix[j-1][0]
+```
+
+
+이렇 첫 번째 행과 첫 번째 열을 채운 결과는 다음과 같다.
+
+|      |      |  b   |  b   |  c   |  a   |
+| :--: | :--: | :--: | :--: | :--: | :--: |
+|      |  T   |  T   |  T   |  T   |  F   |
+|  b   |  T   |      |      |      |      |
+|  c   |  F   |      |      |      |      |
+|  c   |  F   |      |      |      |      |
+
+
+
+이제 나머지 셀은 좌상단부터 행렬을 채워간다. 각 셀 (i, j)에 대응하는 문자열 A, B, C의 현재 글자는 각각 A[i-1], B[j-1], C[i+j-1] 이다. 각 셀에 대해서 다음의 네 가지 경우가 가능하다. 
+
+1. C의 현재 글자가 A의 현재 글자와 B의 현재 글자 어느쪽과도 다른 경우, 이 때 셀의 값은 F이다.
+2. C의 현재 글자가 A의 현재 글자와 같지만 B의 현재 글자와 다른 경우, 이 때 셀의 값은 바로 위 셀의 값과 같다.
+3. C의 현재 글자가 B의 현재 글자와 같지만 A의 현재 글자와 다른 경우 이 때 셀의 값은 바로 왼쪽 셀의 값과 같다.
+4. A, B, C 현재 글자가 모두 같은 경우, 이 때 셀의 값은 위쪽 셀의 값이나 오른쪽 셀의 값 둘 중 하나가 T이면 T이다. 그렇지 않다면 F이다.
+
+이와 같은 로직으로 다음과 같이 행렬을 완성할 수 있다.
+
+|      |      |  b   |  b   |  c   |  a   |
+| :--: | :--: | :--: | :--: | :--: | :--: |
+|      |  T   |  T   |  T   |  T   |  F   |
+|  b   |  T   |  T   |  F   |  T   |  F   |
+|  c   |  F   |  T   |  T   |  T   |  T   |
+|  c   |  F   |  F   |  T   |  F   |  T   |
+
+
+
+이 로직을 반영한 코드 (시간 복잡도는 O(n^2))
+
+```typescript
+
+function isInterleavingDP(strA: string, strB: string, strC: string) {
+  const M = strA.length;
+  const N = strB.length;
+  const lengthC = strC.length;
+
+  //A와 B 문자열의 길이의 합이 C문자열의 길이와 다를 때
+  if (lengthC !== M + N) return false;
+
+  // 인터리빙 여부를 저장하는 2차원 배열
+  const ilMatrix = makeArray<boolean | undefined>(undefined, M + 1, N + 1);
+  ilMatrix[0][0] = true;
+
+  // 첫번째 열을 채운다.
+  for (let i = 1; i <= M; i++) {
+    if (strA[i - 1] !== strC[i - 1]) {
+      ilMatrix[i][0] = false;
+    } else {
+      ilMatrix[i][0] = ilMatrix[i - 1][0];
+    }
+  }
+
+  // 첫번째 행을 채운다.
+  for (let j = 1; j <= N; j++) {
+    if (strB[j - 1] !== strC[j - 1]) {
+      ilMatrix[0][j] = false;
+    } else {
+      ilMatrix[0][j] = ilMatrix[0][j - 1];
+    }
+  }
+
+  // 나머지 셀을 채운다.
+  for (let i = 1; i <= M; i++) {
+    for (let j = 1; j <= N; j++) {
+      // 현재 셀의 A, B, C의 글자
+      let currentA = strA[i - 1];
+      let currentB = strB[j - 1];
+      let currentC = strC[i + j - 1];
+
+      // C의 글자가 A의 글자와 같고 B의 글자와 다를때
+      if (currentA === currentC && currentB !== currentC) {
+        ilMatrix[i][j] = ilMatrix[i - 1][j];
+      }
+
+      // C의 글자가 B의 글자와 같고 A의 글자와 다를때
+      else if (currentA !== currentC && currentB === currentC) {
+        ilMatrix[i][j] = ilMatrix[i][j - 1];
+      }
+
+      // A, B, C 글자 모두가 같을 때
+      else if (currentA === currentC && currentB === currentC) {
+        ilMatrix[i][j] = ilMatrix[i - 1][j] || ilMatrix[i][j - 1];
+      }
+
+      // C의 글자가 A, B 두 글자 어느 쪽과도 다를 때
+      else {
+        ilMatrix[i][j] = false;
+      }
+    }
+  }
+  return ilMatrix[M][N];
+}
+
+```
 

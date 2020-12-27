@@ -12,7 +12,7 @@ export function numOfPathsRecursive(m: number, n: number): number {
 }
 
 export function numOfPathsDP(m: number, n: number): number {
-  const cache = makeArray(0, m, n);
+  const cache = makeArray<number>(0, m, n);
 
   for (let row = 1; row < m; row++) cache[row][0] = 1;
   for (let col = 1; col < n; col++) cache[0][col] = 1;
@@ -26,7 +26,7 @@ export function numOfPathsDP(m: number, n: number): number {
 }
 
 export function numOfPathsDP2(m: number, n: number): number {
-  const cache = makeArray(0, m + 1, n + 1);
+  const cache = makeArray<number>(0, m + 1, n + 1);
 
   cache[0][2] = cache[2][0] = 1;
   for (let row = 1; row <= m; row++) {

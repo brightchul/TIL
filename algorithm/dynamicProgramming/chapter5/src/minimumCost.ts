@@ -35,7 +35,7 @@ export function editDistanceDP(
   m: number = str1.length,
   n: number = str2.length
 ) {
-  const EditD = makeArray(0, m + 1, n + 1);
+  const EditD = makeArray<number>(0, m + 1, n + 1);
 
   for (let j = 0; j <= n; j++) EditD[0][j] = j;
 
