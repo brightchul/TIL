@@ -20,8 +20,8 @@ export function lcsLengthRecursive(
 }
 
 export function lcsLengthMemo(x: string, y: string): number {
-  const m = x.length - 1;
-  const n = y.length - 1;
+  const m = x.length;
+  const n = y.length;
   const LCSLTable = makeArray<number>(-1, m + 1, n + 1);
 
   function _lcsLengthMemo(m: number, n: number): number {
@@ -39,13 +39,18 @@ export function lcsLengthMemo(x: string, y: string): number {
         _lcsLengthMemo(m, n - 1),
         _lcsLengthMemo(m - 1, n)
       );
-
     return LCSLTable[m][n];
   }
+
   return _lcsLengthMemo(m, n);
 }
 
 export function lcsLengthDP(x: string, y: string) {
+  const lcsArr = makeLcsArr(x, y);
+  return lcsArr[x.length][y.length];
+}
+
+function makeLcsArr(x: string, y: string): number[][] {
   const m = x.length;
   const n = y.length;
 
@@ -67,5 +72,28 @@ export function lcsLengthDP(x: string, y: string) {
       }
     }
   }
-  return cache[m][n];
+  return cache as number[][];
+}
+
+export function lcsTextDP(x: string, y: string): string {
+  const lcsArr = makeLcsArr(x, y);
+  let rowIdx = x.length;
+  let colIdx = y.length;
+
+  let result = "";
+  while (rowIdx > 0 && colIdx > 0) {
+    const curValue = lcsArr[rowIdx][colIdx];
+    if (lcsArr[rowIdx - 1][colIdx] === curValue) {
+      rowIdx--;
+      continue;
+    }
+    if (lcsArr[rowIdx][colIdx - 1] === curValue) {
+      colIdx--;
+      continue;
+    }
+    result = x[rowIdx - 1] + result;
+    rowIdx--;
+    colIdx--;
+  }
+  return result;
 }
