@@ -11,6 +11,7 @@ import {
   isSubsetSumDP,
   isSubsetSumDP2,
 } from "./subSetSum";
+import { lcsTextDP } from "./lcsLength";
 
 consoleLog("sunday", "saturday", editDistanceRecursive("sunday", "saturday"));
 consoleLog("sunday", "saturday", editDistanceDP("sunday", "saturday"));

@@ -97,3 +97,26 @@ export function lcsTextDP(x: string, y: string): string {
   }
   return result;
 }
+
+export function lcsTextDPBook(x: string, y: string): string {
+  const lcsArr = makeLcsArr(x, y);
+  let rowIdx = x.length;
+  let colIdx = y.length;
+
+  let result = "";
+
+  while (rowIdx > 0 && colIdx > 0) {
+    if (x[rowIdx - 1] === y[colIdx - 1]) {
+      result = x[rowIdx - 1] + result;
+      rowIdx--;
+      colIdx--;
+    } else {
+      if (lcsArr[rowIdx - 1][colIdx] > lcsArr[rowIdx][colIdx - 1]) {
+        rowIdx--;
+      } else {
+        colIdx--;
+      }
+    }
+  }
+  return result;
+}
