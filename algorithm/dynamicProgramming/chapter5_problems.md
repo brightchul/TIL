@@ -564,3 +564,162 @@ function isSubsetSumDP(arr: number[], n: number, x: number) {
 }
 ```
 
+
+
+## 5.5 최장 공통 부분 수열 길이 구하기
+
+문자열 x의 부분 수열(subsequence)은 문자열 내에서 왼쪽에서 오른쪽 방향으로 문자열 내에 들어 있는 글자의 수열이다. 단, 반드시 연속적인 글자들로 구성될 필요는 없다.
+
+예를 들어 문자열 x가 `ACTTGCG` 라면 
+
+- ACT, ATTC, ACTTCG 등은 X의 부분 수열이다.
+- TTA는 X의 부분수열이 아니다.
+- 길이가 n인 문자열의 부분 수열의 개수는 2^n이다. 부분 수열에는 빈 수열과 원래의 문자열도 포함된다.
+
+
+
+길이가 n인 문자열의 부분 수열의 개수는 `2^n` 개이다. 부분 수열에는 빈 수열과 원래의 문자열도 포함된다.
+
+두 문자열 x와 y가 주어졌을 때 x의 부분 수열이기도 하고 y의 부분 수열이기도 한 문자열을 x와 y의 **공통 부분 수열** (common subsequence)라고 하고, 공통 부분 수열중 가장 긴 부분 수열을 **최장 공통 부분 수열** (longest common subsequence LCS) 이라고 한다. 
+
+두 문자열이 주어졌을 때 두 문자열의 최장 공통 부분 수열의 글자 수를 반환하는 함수를 작성해보자.
+
+예를 들어 `AAACCGTGAGTTATTCGTTCTAGAA` 와 `CACCCCTAAGGTACCTTTGGTTC`에 대해서는 `ACCTAGTATTGTTC` 의 길이 14를 반환해야 한다. 만약 `ABCD` 와 `AEBD` 이라면 두 문자열의 LCS는 `ABD` 이므로 3을 반환해야 한다.
+
+​        
+
+### 재귀 호출을 사용하는 풀이와 설명
+
+이 문제도 최적의 하위 구조를 가지고 있으며 같은 유형의 작은 문제로 큰 문제를 정의할 수 있다.
+
+두 문자열의 가장 마지막 글자를 비교하며 시작한다. 마지막 글자를 비교할 때 2가지 경우가 있다. 두 문자열 A, B의 길이를 각각 m,n이라고 한다.
+
+1. 두 글자가 같은 경우 : 이 경우 이 글자가 두 문자열의 LCS의 마지막 글자가 된다. 즉 LCS에 들어가는 글자 하나를 찾아냈다는 의미이다. 결과에 1을 더하고 양쪽 문자열에서 이 글자를 삭제한 문자열로 함수를 재귀 호출한다.
+
+```
+LCS_LENGTH('ABCD', 'AEBD') = 1 + LCS_LENGTH('ABC', 'AEB')
+```
+
+2. 두 글자가 다른 경우 : 이 경우는 다음 두 LCS의 길이를 구해서 이 중 큰 값을 반환한다.
+   1. 문자열 A의 마지막 글자를 제외한 문자열(길이 m-1)과 문자열 B(길이 n)의 LCS
+   2. 문자열 A(길이 m)와 문자열 B의 마지막 글자를 제외한 문자열 (길이 n-1) 의 LCS
+
+```
+LCS_LENGTH('ABCDE', 'AEBDF') = MAX(LCS_LENGTH('ABCDE', 'AEBD'),
+                                   LCS_LENGTH('ABCD', 'AEBDF'))
+```
+
+```typescript
+// 이 코드의 시간 복잡도는 지수 시간이다. 
+
+function lcsLengthRecursive( x: string, y: string, m: number, n: number ): number {
+  // 종료 조건은 두 문자열 중 하낙 ㅏ빈 문자열일 떄이며 이 때의 LCS_LENGTH = 0
+  if (m === 0 || n === 0) return 0;
+
+  // 문자열의 마지막 글자를 비교해 조건에 따라 재귀 호출한다.
+  if (x[m - 1] === y[n - 1]) return 1 + lcsLengthRecursive(x, y, m - 1, n - 1);
+  else {
+    return Math.max(
+      lcsLengthRecursive(x, y, m, n - 1),
+      lcsLengthRecursive(x, y, m - 1, n)
+    );
+  }
+}
+
+```
+
+​                   
+
+### 메모 전략을 사용한 풀이와 설명
+
+하위 문제의 반복 계산을 피하려면 메모 전략이나 다이나믹 프로그래밍을 사용할 수 있다.
+
+문자열 x의 첫 i 글자와 문자열 y의 첫 j글자의 LCS_LENGTH를 처음 계산할 때 이 값을 `LCSLTABLE[i][j]` 에 저장한다. 재귀 호출 과정을 이어나가다 다시 i와 j값으로 재귀 함수가 호출되면 LCS_LENGTH를 다시 계산하지 않고 캐시에서 저장된 `LCSLTable[i][j]` 의 값을 반환한다.
+
+```typescript
+function lcsLengthMemo( x: string, y: string, m: number, n: number ): number {
+  const LCSLTable = makeArray(-1, m + 1, n + 1);
+
+  function _lcsLengthMemo(m: number, n: number): number {
+    // 종료 조건은 두 문자열 중 하나가 빈 문자열일 때이며 이 때의 LCS_LENGTH = 0
+    if (m == 0 || n == 0) return 0;
+
+    // 이미 캐시에 계산된 값이 있다면 캐시의 값을 반환한다. (!== -1)
+    if (LCSLTable[m][n] !== -1) return LCSLTable[m][n];
+
+    // 문자열의 마지막 글자를 비교에 조건에 따라 재귀 호출한다.
+    if (x[m - 1] === y[n - 1])
+      LCSLTable[m][n] = 1 + _lcsLengthMemo(m - 1, n - 1);
+    else
+      LCSLTable[m][n] = Math.max(
+        _lcsLengthMemo(m, n - 1),
+        _lcsLengthMemo(m - 1, n)
+      );
+
+    return LCSLTable[m][n];
+  }
+  return _lcsLengthMemo(m, n);
+}
+
+```
+
+​            
+
+### 다이나믹 프로그래밍을 사용하는 풀이와 설명
+
+LCSLTable 배열을 재귀 호출 없이 상향식으로 채워나간다. 
+
+```
+// 추가된 글자가 같은 글자면 LCS에 이 글자를 추가할 수 있다.
+IF(X[i-1] == Y[j-1])
+    LCSLTable[i][j] = LCSLTable[i-1][j-1]+1
+
+// 추가된 글자가 다른 글자면 LCS는 변하지 않는다.
+// 따라서 위쪽 칸이나 왼쪽 칸의 값 중 큰 값이 유지된다.
+ELSE
+    LCSLTable[i][j] = MAX(LCSLTable[i-1][j], LCSLTable[i][j-1])
+```
+
+
+
+행렬을 모두 채우면 다음 그림과 같은 값이 되며 가장 우하단 셀의 값이 구하고자 하는 값이다.
+
+|  -   |  ∅   |  A   |  E   |  B   |  D   |
+| :--: | :--: | :--: | :--: | :--: | :--: |
+|  ∅   |  0   |  0   |  0   |  0   |  0   |
+|  A   |  0   |  1   |  1   |  1   |  1   |
+|  B   |  0   |  1   |  1   |  2   |  2   |
+|  C   |  0   |  1   |  1   |  2   |  2   |
+|  D   |  0   |  1   |  1   |  2   |  3   |
+
+
+
+
+
+```typescript
+function lcsLengthDP(x: string, y: string): number {
+  const m = x.length;
+  const n = y.length;
+
+  const cache = makeArray<number>(0, m + 1, n + 1);
+
+  for (let cacheXIdx = 1; cacheXIdx <= m; cacheXIdx++) {
+    const xOne = x[cacheXIdx - 1];
+
+    for (let cacheYIdx = 1; cacheYIdx <= n; cacheYIdx++) {
+      const yOne = y[cacheYIdx - 1];
+      
+      if (xOne === yOne) {
+        cache[cacheXIdx][cacheYIdx] = cache[cacheXIdx - 1][cacheYIdx - 1] + 1;
+      } else {
+        cache[cacheXIdx][cacheYIdx] = Math.max(
+          cache[cacheXIdx - 1][cacheYIdx],
+          cache[cacheXIdx][cacheYIdx - 1]
+        );
+      }
+    }
+  }
+  return cache[m][n];
+}
+```
+
