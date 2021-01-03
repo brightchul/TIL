@@ -14,3 +14,4 @@ Today I learned
 ### 북스터디
 
 - [오브젝트](./bookStudy/Object/README.md)
+- [다이나믹 프로그래밍 완전 정복](./bookStudy/dynamicProgramming//README.md)
