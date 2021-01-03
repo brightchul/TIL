@@ -735,4 +735,40 @@ function lcsLengthDP(x: string, y: string): number {
 2. 위쪽 셀과 같은 값
 3. 왼쪽 위 셀의 값 + 1
 
-1,2 번의 경우 LCS의 변화가 없다. 대각선 방향인 3번의 경우에만 LCS 글자가 변화가 있었음을 알 수 있다.
+1,2 번의 경우 LCS의 변화가 없다. 대각선 방향인 3번의 경우에만 LCS 글자가 변화가 있었음을 알 수 있다. 행렬에 대응하는 배열을 완성하고 난 후에 우하단 셀에서 시작해서 좌상단 행까지 경로를 따라 이동하면서 3번의 경우에 해당되는 글자를 하나씩 추가해 간다. 이 과정을 통해서 수열을 얻을 수 있다.
+
+```typescript
+function lcsTextDPBook(x: string, y: string): string {
+  // lcr 관련 배열을 받는다.
+  const lcsArr = makeLcsArr(x, y);
+  
+  // 우하단부터 시작한다.
+  let rowIdx = x.length;
+  let colIdx = y.length;
+
+  // 결과를 받을 변수이다.
+  let result = "";
+
+  // 첫번째 행 또는 첫번째 열까지 거슬러 올라간다.
+  while (rowIdx > 0 && colIdx > 0) {
+    
+    // ㅌㅌ와 y의 현재의 글자가 같으면 result에 포함시킨다.
+    if (x[rowIdx - 1] === y[colIdx - 1]) {
+      result = x[rowIdx - 1] + result;
+      rowIdx--;
+      colIdx--;
+    } else {
+      // 같지 않다면 위쪽 또느 왼쪽 셀의 값 중 큰 값을 따라 이동한다.
+      if (lcsArr[rowIdx - 1][colIdx] > lcsArr[rowIdx][colIdx - 1]) {
+        rowIdx--;
+      } else {
+        colIdx--;
+      }
+    }
+  }
+  
+  // lcr 수열 (문자열) 반환
+  return result;
+}
+```
+
