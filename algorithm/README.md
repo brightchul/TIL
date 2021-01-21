@@ -113,6 +113,7 @@
 -   직사각형 넓이 [[문제풀이]](./problems/src/programmers/rectangleArea/Solution.md)
 -   추석 트래픽 [[문제풀이]](./problems/src/programmers/chuseokTraffic/Solution.md)
 -   순위 [[문제풀이]](./problems/src/programmers/rank/Solution.md)
+-   풍선 터트리기 [[문제풀이]](./problems/src/programmers/poppingBalloons/Solution.md)
 
 ​      
 
