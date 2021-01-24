@@ -28,6 +28,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		// 쿠키가 있다는 것은 한 번 다녀간 적이 있는 사람
 		fmt.Fprintf(w, "<html><body>두 번째 이후</body></html>\n")
 	} else {
+		log.Println(w)
 		fmt.Fprintf(w, "<html><body>첫방문</body></html>\n")
 	}
 }
