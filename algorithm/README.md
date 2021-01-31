@@ -112,6 +112,8 @@
 -   직사각형 넓이 [[문제풀이]](./problems/src/programmers/rectangleArea/Solution.md)
 -   추석 트래픽 [[문제풀이]](./problems/src/programmers/chuseokTraffic/Solution.md)
 -   순위 [[문제풀이]](./problems/src/programmers/rank/Solution.md)
+-   정수 삼각형 [[코드]](./problems/src/programmers/integerTriangle/Solution.java)
+-   삼각 달팽이 [[코드]](./problems/src/programmers/triangleSnail/Solution.java)
 
 ​      
 
