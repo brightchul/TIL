@@ -50,7 +50,5 @@ public class SolutionTest {
         assertEquals(sol.solution(5, arr3, 3), 5);
         assertEquals(sol.solution(5, arr3, 2), 4);
 
-        int[][] arr4 = new int[][] {{1,2,3},{1,3,1},{2,3,1},{2,4,1}};
-        assertEquals(sol.solution(4, arr4, 3), 4);
     }
 }

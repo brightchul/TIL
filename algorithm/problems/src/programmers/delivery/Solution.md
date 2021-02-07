@@ -48,38 +48,23 @@ N=4, road=[[1,2,3],[1,3,1],[2,3,1],[2,4,1]], K=3, return 4
 
 ## 코드 구현 [[전체코드]](Solution.java)
 
-다익스트라 알고리즘을 이용해서 1번 마을에서 각 마을에 얼마나 걸리는지 int[]로 결과를 받는다. 그 다음 기준 비용은 K값 이하만 카운트 하면 답이 나온다.
+다익스트라 알고리즘을 이용해서 1번 마을부터 연결된 각 마을까지의 값들을 구하면서 정리한다. 그리고 그 누적된 거리들을 우선순위 큐에 담아서 낮은 값부터 계속 순회하도록 만든다. 
 
 ```java
-public int[] dijkstra (int totalCount, int src) {
-    PriorityQueue<MyPair> pq = new PriorityQueue<>();
-    int[] dist = new int[totalCount+1];
-    Arrays.fill(dist, Integer.MAX_VALUE);
-    dist[src] = 0;
+public void run(int idx, int minCost) {
+  int[] oneArr = arr[idx];
 
-    pq.add(new MyPair(src, 0));
+  for (int i = 1; i < oneArr.length; i++) {
+    if (oneArr[i] == 0) continue;
+    if (costs[i] <= minCost + oneArr[i]) continue;
+    costs[i] = minCost + oneArr[i];
+    pq.add(new Node(i, costs[i]));
+  }
 
-    while(pq.size() > 0) {
-        MyPair curPair = pq.poll();
-        int idx = curPair.idx;
-        int cost = curPair.cost;
-        List<MyPair> curList = list.get(idx);
-
-        for(int i=0; i<curList.size(); i++) {
-            MyPair one = curList.get(i);
-            int nextIdx = one.idx;
-            int nextCost = cost + one.cost;
-
-            if(dist[nextIdx] <= nextCost) continue;
-
-            if(dist[nextIdx] > nextCost) {
-                dist[nextIdx] = nextCost;
-                pq.add(new MyPair(nextIdx, nextCost));
-            }
-        }
-    }
-    // 인덱스0은 사용안했으므로 제외하고 반환
-    return arrayCopy(dist, 1, totalCount);
+  if (pq.size() > 0) {
+    Node one = pq.poll();
+    run(one.idx, one.cost);
+  }
 }
 ```
 
