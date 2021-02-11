@@ -42,7 +42,7 @@
 - 카드 구매하기 (11052) [[코드]](./problems/src/baekjoon/p11052/Solution.java)
 - 나이트 투어 (1331) [[코드]](./problems/src/baekjoon/p1331/Solution.java)
 
-​
+
 
 ### 알고스팟
 
@@ -53,13 +53,13 @@
 - 변화하는 중간 값 [[문제풀이]](./problems/src/algospot/RUNNINGMEDIAN/Solution.md)
 - 등산로 [[코드]](./problems/src/algospot/MORDOR/Main.java)
 
-​
+
 
 ### leetcode
 
 - 309\. Best Time to Buy and Sell Stock with Cooldown [[문제풀이]](./problems/leetcode/p309/Solution.md)
 
-​
+
 
 ### 프로그래머스
 
@@ -116,8 +116,9 @@
 - 정수 삼각형 [[코드]](./problems/src/programmers/integerTriangle/Solution.java)
 - 삼각 달팽이 [[코드]](./problems/src/programmers/triangleSnail/Solution.java)
 - 풍선 터트리기 [[문제풀이]](./problems/src/programmers/poppingBalloons/Solution.md)
+- 징검다리 [[문제풀이]](./problems/src/programmers/steppingStones/Solution.md)
 
-​
+
 
 ## 알고리즘 문제 해결 전략
 
