@@ -117,6 +117,7 @@
 - 삼각 달팽이 [[코드]](./problems/src/programmers/triangleSnail/Solution.java)
 - 풍선 터트리기 [[문제풀이]](./problems/src/programmers/poppingBalloons/Solution.md)
 - 징검다리 [[문제풀이]](./problems/src/programmers/steppingStones/Solution.md)
+- 호텔 방 배정 [[문제풀이]](./problems/src/programmers/hotelRoomAssignment/Solution.md)
 
 
 
