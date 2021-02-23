@@ -41,8 +41,10 @@
 - 자두나무 (2240) [[문제풀이]](./problems/src/baekjoon/p2240/Solution.md)
 - 카드 구매하기 (11052) [[코드]](./problems/src/baekjoon/p11052/Solution.java)
 - 나이트 투어 (1331) [[코드]](./problems/src/baekjoon/p1331/Solution.java)
+- N과 M (1)  [[코드]](./problems/src/baekjoon/p15649/Main.java)
+- N과 M (2) [[문제풀이]](./problems/src/baekjoon/p15650/Solution.md)
 
-
+​                                                  
 
 ### 알고스팟
 
@@ -53,13 +55,13 @@
 - 변화하는 중간 값 [[문제풀이]](./problems/src/algospot/RUNNINGMEDIAN/Solution.md)
 - 등산로 [[코드]](./problems/src/algospot/MORDOR/Main.java)
 
-
+​                                                 
 
 ### leetcode
 
 - 309\. Best Time to Buy and Sell Stock with Cooldown [[문제풀이]](./problems/leetcode/p309/Solution.md)
 
-
+​                                             
 
 ### 프로그래머스
 
