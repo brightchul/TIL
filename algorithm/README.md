@@ -46,24 +46,26 @@
 -   최단 경로 (1753) [[문제풀이]](./problems/src/baekjoon/p1753/Solution.md)
 -   최소비용 구하기 (1916) [[문제풀이]](./problems/src/baekjoon/p1916/Main.java)
 
-
+​                
 
 ### 알고스팟
 
--   록 페스티벌 [[코드1]](./problems/src/algospot/FESTIVAL/Main.java) [[코드2]](./problems/src/algospot/FESTIVAL/Main2.java)
--   보글 게임 [[코드]](./problems/src/algospot/BOGGLE/Main.java)
--   트리 순회 순서 변경 [[문제풀이]](./problems/src/algospot/TRAVERSAL/Solution.md)
--   너드인가 너드가 아닌가? 2 [[문제풀이]](./problems/src/algospot/NERD2/Solution.md)
--   변화하는 중간 값 [[문제풀이]](./problems/src/algospot/RUNNINGMEDIAN/Solution.md)
--   등산로 [[코드]](./problems/src/algospot/MORDOR/Main.java)
+- 록 페스티벌 [[코드1]](./problems/src/algospot/FESTIVAL/Main.java) [[코드2]](./problems/src/algospot/FESTIVAL/Main2.java)
+- 보글 게임 [[코드]](./problems/src/algospot/BOGGLE/Main.java)
+- 트리 순회 순서 변경 [[문제풀이]](./problems/src/algospot/TRAVERSAL/Solution.md)
+- 너드인가 너드가 아닌가? 2 [[문제풀이]](./problems/src/algospot/NERD2/Solution.md)
+- 변화하는 중간 값 [[문제풀이]](./problems/src/algospot/RUNNINGMEDIAN/Solution.md)
+- 등산로 [[코드]](./problems/src/algospot/MORDOR/Main.java)
+- 조세푸스 문제 [[코드]](./problems/src/algospot/JOSEPHUS/Main.js)
 
+​                               
 
 
 ### leetcode
 
 -   309\. Best Time to Buy and Sell Stock with Cooldown [[문제풀이]](./problems/leetcode/p309/Solution.md)
 
-
+​                               
 
 ### 프로그래머스
 
