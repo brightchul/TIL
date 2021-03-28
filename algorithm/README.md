@@ -125,6 +125,9 @@
 -   징검다리 [[문제풀이]](./problems/src/programmers/steppingStones/Solution.md)
 -   호텔 방 배정 [[문제풀이]](./problems/src/programmers/hotelRoomAssignment/Solution.md)
 -   게임 맵 최단거리 [[문제풀이]](./problems/src/programmers/gameMapShortestDistance/Solution.md)
+-   지그재그 행렬 [[문제풀이]](./problems/src/programmers/zigzag/Solution.md)
+
+​                         
 
 ## 알고리즘 문제 해결 전략
 
